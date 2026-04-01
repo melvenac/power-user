@@ -132,7 +132,31 @@ Write-Host ""
 # ============================================
 Write-Host "Checking VS Code..." -ForegroundColor Cyan
 $codeVersion = Check-Command "VS Code" "code --version"
-if ($codeVersion) {
+
+# Also check common install locations if 'code' isn't in PATH
+if (-not $codeVersion) {
+    $commonPaths = @(
+        "$env:LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd",
+        "$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe",
+        "C:\Program Files\Microsoft VS Code\bin\code.cmd",
+        "C:\Program Files\Microsoft VS Code\Code.exe",
+        "$env:LOCALAPPDATA\Programs\Microsoft VS Code Insiders\bin\code-insiders.cmd"
+    )
+    foreach ($p in $commonPaths) {
+        if (Test-Path $p) {
+            $codeVersion = "installed (found at $p but not in PATH)"
+            Write-Host "  Found VS Code at $p" -ForegroundColor Green
+            Write-Host "  TIP: 'code' command not in PATH. Open VS Code, press Ctrl+Shift+P," -ForegroundColor Yellow
+            Write-Host '  type "Shell Command: Install code command in PATH", and restart terminal.' -ForegroundColor Yellow
+            $results["VS Code"] = "pass"
+            break
+        }
+    }
+}
+
+if ($codeVersion -and $results["VS Code"] -eq "pass") {
+    # Already handled above (found via file path)
+} elseif ($codeVersion) {
     $firstLine = ($codeVersion -split "`n")[0]
     Write-Host "  Found: VS Code $firstLine" -ForegroundColor Green
     $results["VS Code"] = "pass"
