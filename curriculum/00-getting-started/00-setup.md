@@ -19,35 +19,33 @@ If not, read on. We'll get you from zero to ready in about 15 minutes.
 
 ## Option A: The Setup Script (Recommended)
 
-We have a PowerShell script that checks everything and installs what's missing.
+We have setup scripts for all platforms that check everything and install what's missing.
 
-### Step 1: Open PowerShell
+### Windows
 
-Press `Win + X` → select **Terminal** or **PowerShell**.
-
-### Step 2: Run the script
+Open PowerShell (`Win + X` → Terminal):
 
 ```powershell
 powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex"
 ```
 
-The script will:
-- Check what you already have installed
-- Install missing tools via `winget` (built into Windows 10/11)
-- Fix PATH issues
-- Print a pass/fail checklist at the end
+### Mac / Linux
 
-### Step 3: Restart your terminal
+Open Terminal:
 
-After installs, close and reopen your terminal. This loads the new PATH entries.
-
-### Step 4: Run the script again
-
-```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex"
+```bash
+curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
 ```
 
-Everything should show `[OK]` now. If not, follow the manual steps below for anything that failed.
+**Mac note:** The script installs [Homebrew](https://brew.sh) if you don't have it — that's Mac's package manager.
+
+**Linux note:** Supports apt (Ubuntu/Debian), dnf (Fedora), and pacman (Arch).
+
+### After the script runs:
+
+1. **Restart your terminal** (loads new PATH entries)
+2. **Run the script again** — everything should show `[OK]`
+3. If anything failed, follow the manual steps below
 
 ---
 

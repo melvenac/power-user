@@ -14,9 +14,16 @@ A hands-on training program for becoming a Claude Code power user — from first
 
 Never used Git, Node.js, or VS Code? Start here.
 
-**Automatic (recommended):** Open PowerShell and run:
+**Automatic (recommended):**
+
+Windows (PowerShell):
 ```powershell
 powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex"
+```
+
+Mac / Linux (Terminal):
+```bash
+curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
 ```
 
 This checks what you have, installs what's missing, and verifies everything works.
