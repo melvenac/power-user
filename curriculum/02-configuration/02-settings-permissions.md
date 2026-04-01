@@ -94,15 +94,37 @@ Here's a practical progression:
 }
 ```
 
-### Month 2+: Autonomous
+### Month 2+: Autonomous (with guardrails)
+
+The key insight at this level: **don't allow all of Bash — allow specific Bash patterns.** This gives Claude Code freedom for common operations while still catching anything unexpected.
+
 ```json
 {
   "permissions": {
-    "allow": ["Read", "Glob", "Grep", "Edit", "Write", "Agent", "Bash"],
+    "allow": [
+      "Read", "Glob", "Grep", "WebSearch",
+      "Edit", "Write", "Agent",
+      "Bash(git *)", "Bash(gh *)",
+      "Bash(npm *)", "Bash(npx *)",
+      "Bash(bun *)", "Bash(bunx *)",
+      "Bash(node *)",
+      "Bash(mkdir *)", "Bash(ls *)",
+      "Bash(cat *)", "Bash(head *)",
+      "Bash(tail *)", "Bash(wc *)",
+      "Bash(echo *)", "Bash(cd *)",
+      "mcp__open-brain-knowledge__*",
+      "mcp__plugin_context-mode_context-mode__*",
+      "mcp__smart-connections__*",
+      "mcp__ide__*"
+    ],
     "deny": ["WebFetch"]
   }
 }
 ```
+
+Notice the pattern: `Bash(git *)` allows any git command, but a general `Bash` call (like `rm`, `curl`, or an arbitrary script) still prompts you. This is the sweet spot — Claude Code works fluidly for 95% of operations, but you're still in the loop for anything unusual.
+
+Also notice the MCP wildcards (`mcp__open-brain-knowledge__*`). If you trust an MCP server, allow all its tools at once.
 
 There's no rush. Move at whatever speed feels right.
 
@@ -132,21 +154,48 @@ For now, just know these exist. We'll configure them in later modules.
 
 ## Exercise: Set Your Permissions
 
-1. Find your settings file:
-   - Global: `~/.claude/settings.json`
-   - Project: `.claude/settings.json`
+### Step 1: See what you have
+Ask Claude Code:
+```
+"Show me my current permission settings"
+```
 
-2. Ask Claude Code:
-   ```
-   "Show me my current permission settings"
-   ```
+### Step 2: Think in three tiers
 
-3. If you're comfortable, add read tools to auto-allow:
-   ```
-   "Update my project settings to auto-allow Read, Glob, and Grep"
-   ```
+**Tier 1 — Obviously safe (read-only tools):**
+Read, Glob, Grep, WebSearch — these only look, never modify.
 
-4. Test it — run a search and notice you don't get prompted anymore.
+**Tier 2 — Productive (modify, but you trust the workflow):**
+Edit, Write, Agent, plus Bash patterns for your daily tools (git, npm, bun, gh). Also your MCP servers — if you installed and configured them, you trust them.
+
+**Tier 3 — Needs your attention:**
+General Bash (catch-all for anything not matching a pattern), and any tool you've explicitly denied.
+
+### Step 3: Configure
+Tell Claude Code:
+```
+"Update my global settings to auto-allow Tier 1 and Tier 2. 
+Keep general Bash on ask. Keep WebFetch denied."
+```
+
+Or do it manually in `~/.claude/settings.json` — see the Autonomous example above.
+
+### Step 4: Test the difference
+Run a few normal tasks. Notice how many fewer permission prompts you get. If anything feels too loose, tighten it. If you're still getting prompted for something safe, add the pattern.
+
+### Real example: Bash patterns
+
+The `Bash(pattern)` syntax is powerful. Some useful patterns:
+
+| Pattern | What it allows |
+|---------|---------------|
+| `Bash(git *)` | All git commands |
+| `Bash(npm test*)` | Only npm test (not npm install) |
+| `Bash(bun *)` | All bun commands |
+| `Bash(mkdir *)` | Creating directories |
+| `Bash(gh pr *)` | Only GitHub PR operations |
+
+Start broad (`Bash(git *)`), tighten if you need to (`Bash(git status)`, `Bash(git log *)`).
 
 ## Key Takeaway
 
