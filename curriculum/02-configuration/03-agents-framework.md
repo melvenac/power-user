@@ -12,7 +12,7 @@ Think of it this way:
 
 The `.agents/` structure comes from the **Self-Improving Agent framework** — a portable architecture that works with any AI coding agent (Claude Code, Cursor, Gemini, etc.) and any tech stack.
 
-> The full framework reference lives at: [FRAMEWORK.md](https://github.com/melvenac/Self-Improving-Agent)
+> **You don't need to clone or install anything.** The `/bootstrap` command scaffolds everything your project needs locally. The full framework reference repo ([Self-Improving-Agent](https://github.com/melvenac/Self-Improving-Agent)) is optional reading — you'll explore it in Module 08 when you're ready for the advanced features.
 
 ## The Structure
 

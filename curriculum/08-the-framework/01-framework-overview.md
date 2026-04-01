@@ -116,6 +116,52 @@ With the framework:
 
 The difference compounds. After a month, a framework-driven project is dramatically more productive than one without.
 
+## Graduation: The Full Framework Reference
+
+Up until now, `/bootstrap` has scaffolded a lightweight version of the framework — enough to get you productive. Now you're ready to see the full picture.
+
+Clone the Self-Improving Agent reference repo:
+
+```bash
+git clone https://github.com/melvenac/Self-Improving-Agent.git ~/Projects/Self-Improving-Agent
+```
+
+This is the **template and reference**, not a dependency. You don't install it — you learn from it. Open it and explore:
+
+```
+"Read the README and FRAMEWORK.md in ~/Projects/Self-Improving-Agent. 
+Explain how it compares to what /bootstrap created in my project."
+```
+
+### What the full framework adds beyond /bootstrap
+
+| Feature | /bootstrap (lightweight) | Full framework |
+|---------|------------------------|----------------|
+| `.agents/` structure | TASKS/, SESSIONS/, SYSTEM/ | Same + skills/, rules/ |
+| Session commands | /start, /end, /task, /sync | Same + /test, /review |
+| Documents | SUMMARY.md, INBOX.md | + PRD, DECISIONS, ENTITIES, TESTING, RUNBOOK, SECURITY |
+| Skills | Create manually as needed | Skill lifecycle: observe → propose → draft → test → mature |
+| Knowledge | Session context only | 3-tier: Obsidian Vault + Knowledge MCP + CC Memory |
+| Hooks | None by default | SessionStart, SessionEnd, PreToolUse, skill-scan |
+| Path rules | None | `.claude/rules/` with glob frontmatter |
+| Validation | None | Entity drift checker, session protocol linter |
+
+You don't need all of this on day one. The lightweight version got you here. Now you can adopt the advanced features as your project grows — add a PRD when scope matters, add DECISIONS.md when trade-offs need documenting, add path rules when your codebase is big enough to benefit.
+
+### The reference repo is also a template
+
+When you start a new project that deserves the full framework from day one:
+
+```bash
+# Copy the project template as a starting point
+cp -r ~/Projects/Self-Improving-Agent/project-template ~/Projects/my-new-project
+cd ~/Projects/my-new-project
+git init
+claude
+```
+
+Or keep using `/bootstrap` for lightweight scaffolding and add pieces as needed. Both approaches work.
+
 ## What You Need for the Next Lessons
 
 1. **A project idea** — something you want to build. Doesn't need to be complex. Examples:
@@ -126,11 +172,13 @@ The difference compounds. After a month, a framework-driven project is dramatica
 
 2. **Your tech stack chosen** — refer back to Module 07 if needed
 
-3. **45-60 minutes per "session" lesson** — each lesson is a guided session
+3. **The Self-Improving Agent repo cloned** — for reference during the guided sessions
+
+4. **45-60 minutes per "session" lesson** — each lesson is a guided session
 
 ## Key Takeaway
 
-The framework is the system that makes everything from Modules 00-07 work together automatically. You've learned the pieces — now you'll see them in action as a complete, self-improving workflow.
+The framework is the system that makes everything from Modules 00-07 work together automatically. You've learned the pieces — now you'll see them in action as a complete, self-improving workflow. The `/bootstrap` command got you started. The full framework is where you graduate to.
 
 ---
 
