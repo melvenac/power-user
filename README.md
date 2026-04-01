@@ -127,6 +127,18 @@ Choose your track based on what you're building:
 | Wrong terminal (PowerShell) | Set VS Code default to Git Bash (see above) |
 | Setup script fails | Follow [manual install steps](curriculum/00-getting-started/00-setup.md) |
 
+## Feedback
+
+Found something confusing? Have a suggestion? Inside Claude Code, run:
+
+```
+/feedback
+```
+
+This creates a GitHub issue directly from your session. Your feedback improves the curriculum for everyone — it's a self-improving loop.
+
+Or [open an issue manually](https://github.com/melvenac/power-user/issues).
+
 ## Status
 
 Public v1.0.0 — full curriculum complete. Iterating on exercises and real-user feedback.

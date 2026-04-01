@@ -95,6 +95,23 @@ You'll develop trust with Claude Code over time:
 
 There's no rush to get to level 3. Level 1 is where you learn the most about how the tool works.
 
+## One More Thing: The Feedback Loop
+
+This curriculum improves based on your feedback. If something was confusing, missing, or broken — or if something worked really well — tell us. Run:
+
+```
+/feedback
+```
+
+This is a custom slash command built into this project. It will:
+1. Ask what's on your mind
+2. Create a GitHub issue on the curriculum repo
+3. Tag it so we can find patterns
+
+**Why this matters:** If three students report confusion on the same lesson, that lesson gets rewritten. Your feedback literally improves the course for the next person. This is a self-improving loop — the same pattern you'll learn to build into your own projects in later modules.
+
+**Try it now** — even if it's just "Module 00 went smoothly" or "I got stuck on PATH setup." It takes 30 seconds and it helps.
+
 ## Key Takeaway
 
 Claude Code is most powerful when you give it **tasks**, not **questions**. Be specific about what you want, let it figure out the how, and watch what it does. That observation is how you learn to direct it better next time.
