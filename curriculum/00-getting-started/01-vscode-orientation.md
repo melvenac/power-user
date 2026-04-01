@@ -283,4 +283,4 @@ VS Code is your cockpit. The editor is for reading code, the terminal is for run
 
 ---
 
-**Next:** [What Is Claude Code?](02-what-is-claude-code.md)
+**Next:** [Understanding AI Tools](02-understanding-ai-tools.md)

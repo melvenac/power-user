@@ -78,4 +78,4 @@ Claude Code is a programmable agent that happens to live in your terminal. The f
 
 ---
 
-**Next:** [Installation & First Run](03-installation.md)
+**Next:** [Installation & First Run](04-installation.md)
