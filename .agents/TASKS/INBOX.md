@@ -20,16 +20,28 @@
 - [x] Update /bootstrap to include session commands
 - [x] Initialize git repo and push to GitHub (private)
 - [x] Create CHANGELOG.md
+- [x] Add real-world examples + exercises across 6 modules (10 files)
+- [x] Add /compact exercise with real session example + status line exercise
+- [x] Add Aaron's settings.json walkthrough in permissions lesson
+- [x] Add mature skills library showcase (15 Makerspace skills)
+- [x] Create /feedback command (self-improving student feedback loop)
+- [x] Setup scripts auto-clone curriculum + create ~/Projects/ + open VS Code
+- [x] GitHub account + CLI promoted to required prerequisite
+- [x] Framework graduation: /bootstrap → full Self-Improving-Agent in Module 08
+- [x] PRD drafted for paid course offering (gitignored, local only)
+- [x] Notification sound hook exercise with myinstants.com source
+- [x] README updated: detailed module overview, public v1.0.0 status, feedback section
 
 ## Priority
 - [ ] Test setup scripts on clean Windows machine (recruit Bill or Sam)
 - [ ] Test setup script on Mac (find a Mac user)
 - [ ] Aaron: read through full curriculum as first "student"
 - [ ] Add inline glossary links to lessons on first use of technical terms
+- [ ] Build course landing page on Makerspace site (PRD.md has scope)
 
 ## Backlog
-- [ ] Create more standalone exercises as curriculum is iterated
+- [ ] Record 3-5 video walkthroughs (setup, first task, /compact, permissions, custom command)
 - [ ] Add VS Code extension setup walkthrough with screenshots
-- [ ] Create video companion content (optional)
-- [ ] Add "common mistakes" appendix from real user testing
-- [ ] Open source readiness review (remove private references, add LICENSE)
+- [ ] Create "common mistakes" appendix from real user testing
+- [ ] Agent teams exercise (real use case when website build starts)
+- [ ] Add LICENSE file for open source readiness
