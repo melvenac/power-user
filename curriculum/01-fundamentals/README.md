@@ -1,10 +1,11 @@
 # Module 01: Fundamentals
 
 ## What You'll Learn
+- Terminal vs. Chat — two ways to use Claude Code and when to use each
 - The built-in tools and what each one does
 - Slash commands that save you time
 - How to read Claude Code's output and understand what it's doing
-- How to write prompts that get better results
+- How to write prompts that get better results (two-gear model)
 - The context window — what it is and why it matters
 
 ## Prerequisites
@@ -12,6 +13,7 @@
 - Claude Code installed and running
 
 ## Lessons
+0. [Terminal vs. Chat](00-terminal-vs-chat.md) — *which interface should you start with?*
 1. [The Tool System](01-tools.md)
 2. [Slash Commands](02-commands.md)
 3. [Reading the Output](03-reading-output.md)
