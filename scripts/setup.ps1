@@ -221,22 +221,51 @@ if ($bunVersion) {
 Write-Host ""
 
 # ============================================
-# 7. GitHub CLI (optional but recommended)
+# 7. GitHub CLI + GitHub Account
 # ============================================
-Write-Host "Checking GitHub CLI (optional)..." -ForegroundColor Cyan
+Write-Host "Checking GitHub CLI..." -ForegroundColor Cyan
 $ghVersion = Check-Command "GitHub CLI" "gh --version"
 if ($ghVersion) {
     $firstLine = ($ghVersion -split "`n")[0]
     Write-Host "  Found: $firstLine" -ForegroundColor Green
-    $results["GitHub CLI"] = "pass"
+
+    # Check if authenticated
+    $ghAuth = Check-Command "GitHub Auth" "gh auth status"
+    if ($ghAuth -and $ghAuth -notmatch "not logged in") {
+        Write-Host "  Authenticated with GitHub" -ForegroundColor Green
+        $results["GitHub CLI"] = "pass"
+    } else {
+        Write-Host "  Installed but not logged in" -ForegroundColor Yellow
+        Write-Host ""
+        Write-Host "  You need a GitHub account for this curriculum." -ForegroundColor Yellow
+        Write-Host "  If you don't have one, sign up free at: https://github.com/signup" -ForegroundColor Yellow
+        Write-Host ""
+        Write-Host "  Then run this command to log in:" -ForegroundColor Yellow
+        Write-Host "    gh auth login" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  Choose: GitHub.com → HTTPS → Login with a web browser" -ForegroundColor Yellow
+        $results["GitHub CLI"] = "RESTART"
+    }
 } else {
-    Write-Host "  Not found (recommended for git workflow)" -ForegroundColor Yellow
+    Write-Host "  Not found — installing..." -ForegroundColor Yellow
     if ($wingetAvailable) {
-        Write-Host "  Install with: winget install GitHub.cli" -ForegroundColor Yellow
+        $installed = Install-WithWinget "GitHub CLI" "GitHub.cli" "gh --version"
+        if ($installed) {
+            Write-Host ""
+            Write-Host "  You need a GitHub account for this curriculum." -ForegroundColor Yellow
+            Write-Host "  If you don't have one, sign up free at: https://github.com/signup" -ForegroundColor Yellow
+            Write-Host ""
+            Write-Host "  After restarting your terminal, run:" -ForegroundColor Yellow
+            Write-Host "    gh auth login" -ForegroundColor White
+            $results["GitHub CLI"] = "RESTART"
+        } else {
+            $results["GitHub CLI"] = "FAIL"
+        }
     } else {
         Write-Host "  Download from: https://cli.github.com" -ForegroundColor Yellow
+        Write-Host "  You'll also need a GitHub account: https://github.com/signup" -ForegroundColor Yellow
+        $results["GitHub CLI"] = "MANUAL"
     }
-    $results["GitHub CLI"] = "optional"
 }
 Write-Host ""
 

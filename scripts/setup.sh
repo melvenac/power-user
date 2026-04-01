@@ -231,22 +231,53 @@ fi
 echo ""
 
 # ============================================
-# 7. GitHub CLI (optional)
+# 7. GitHub CLI + GitHub Account
 # ============================================
-echo -e "${CYAN}Checking GitHub CLI (optional)...${NC}"
+echo -e "${CYAN}Checking GitHub CLI...${NC}"
 if check_command gh; then
     version=$(gh --version | head -1)
     echo -e "  ${GREEN}Found: $version${NC}"
-    results[GH]="pass"
+
+    # Check if authenticated
+    if gh auth status &>/dev/null; then
+        echo -e "  ${GREEN}Authenticated with GitHub${NC}"
+        results[GH]="pass"
+    else
+        echo -e "  ${YELLOW}Installed but not logged in${NC}"
+        echo ""
+        echo -e "  ${YELLOW}You need a GitHub account for this curriculum.${NC}"
+        echo -e "  ${YELLOW}If you don't have one, sign up free at: https://github.com/signup${NC}"
+        echo ""
+        echo -e "  ${YELLOW}Then run this command to log in:${NC}"
+        echo "    gh auth login"
+        echo ""
+        echo -e "  ${YELLOW}Choose: GitHub.com → HTTPS → Login with a web browser${NC}"
+        results[GH]="RESTART"
+    fi
 else
-    echo -e "  ${YELLOW}Not found (recommended for git workflow)${NC}"
+    echo -e "  ${YELLOW}Not found — installing...${NC}"
     case $INSTALLER in
-        brew)   echo -e "  ${YELLOW}Install with: brew install gh${NC}" ;;
-        apt)    echo -e "  ${YELLOW}Install with: sudo apt install gh${NC}" ;;
-        dnf)    echo -e "  ${YELLOW}Install with: sudo dnf install gh${NC}" ;;
+        brew)   brew install gh ;;
+        apt)    sudo apt install -y gh 2>/dev/null || (curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install -y gh) ;;
+        dnf)    sudo dnf install -y gh ;;
+        pacman) sudo pacman -S --noconfirm github-cli ;;
         *)      echo -e "  ${YELLOW}Install from: https://cli.github.com${NC}" ;;
     esac
-    results[GH]="optional"
+
+    if check_command gh; then
+        echo -e "  ${GREEN}Installed: $(gh --version | head -1)${NC}"
+        echo ""
+        echo -e "  ${YELLOW}You need a GitHub account for this curriculum.${NC}"
+        echo -e "  ${YELLOW}If you don't have one, sign up free at: https://github.com/signup${NC}"
+        echo ""
+        echo -e "  ${YELLOW}After restarting your terminal, run:${NC}"
+        echo "    gh auth login"
+        results[GH]="RESTART"
+    else
+        echo -e "  ${RED}Install failed — get it from: https://cli.github.com${NC}"
+        echo -e "  ${YELLOW}You'll also need a GitHub account: https://github.com/signup${NC}"
+        results[GH]="FAIL"
+    fi
 fi
 echo ""
 

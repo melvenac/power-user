@@ -129,18 +129,45 @@ powershell -c "irm bun.sh/install.ps1 | iex"
 bun --version
 ```
 
-### 6. Install GitHub CLI (Optional)
+### 6. Create a GitHub Account
 
-Recommended for easier Git operations.
+If you don't have a GitHub account, create one now — it's free and you'll need it for:
+- **Cloning the curriculum** (the setup script does this automatically)
+- **Submitting feedback** (the `/feedback` command creates GitHub issues)
+- **Storing your own projects** (every developer uses GitHub)
+
+**How to sign up:**
+1. Go to [github.com](https://github.com) and click **Sign up**
+2. Enter your email, create a password, choose a username
+3. Verify your email (check your inbox)
+4. That's it — you have a GitHub account
+
+**Pick a good username** — this becomes your developer identity. Use something professional-ish (your name, a handle you like). You can't easily change it later.
+
+### 7. Install GitHub CLI & Authenticate
+
+The GitHub CLI (`gh`) lets you interact with GitHub from your terminal — no browser needed. It's how the `/feedback` command works.
 
 ```bash
 winget install GitHub.cli
 ```
 
-After install, authenticate:
+After install, connect it to your account:
 ```bash
 gh auth login
 ```
+
+It will walk you through:
+1. **Where to log in?** → `GitHub.com`
+2. **Protocol?** → `HTTPS`
+3. **Authenticate?** → `Login with a web browser`
+4. It opens your browser, you confirm, done.
+
+**Verify it worked:**
+```bash
+gh auth status
+```
+You should see your username and "Logged in to github.com."
 
 ---
 
