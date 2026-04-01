@@ -289,16 +289,108 @@ foreach ($tool in @("Git", "Node.js", "npm", "VS Code", "Claude Code", "Bun", "G
     }
 }
 
+# ============================================
+# 9. Clone curriculum repo
+# ============================================
+Write-Host "Setting up curriculum..." -ForegroundColor Cyan
+
+$projectsDir = "$env:USERPROFILE\Projects"
+$repoDir = "$projectsDir\power-user"
+
+if (Test-Path "$repoDir\curriculum") {
+    Write-Host "  Found existing curriculum at $repoDir" -ForegroundColor Green
+    $results["Curriculum"] = "pass"
+} else {
+    # Create Projects folder if it doesn't exist
+    if (-not (Test-Path $projectsDir)) {
+        Write-Host "  Creating $projectsDir..." -ForegroundColor Yellow
+        New-Item -ItemType Directory -Path $projectsDir -Force | Out-Null
+    }
+
+    if (Check-Command "Git" "git --version") {
+        Write-Host "  Cloning curriculum to $repoDir..." -ForegroundColor Yellow
+        try {
+            git clone https://github.com/melvenac/power-user.git $repoDir 2>&1 | Out-Null
+            if (Test-Path "$repoDir\curriculum") {
+                Write-Host "  Curriculum ready at $repoDir" -ForegroundColor Green
+                $results["Curriculum"] = "installed"
+            } else {
+                Write-Host "  Clone failed — try manually: git clone https://github.com/melvenac/power-user.git $repoDir" -ForegroundColor Red
+                $results["Curriculum"] = "FAIL"
+            }
+        } catch {
+            Write-Host "  Clone failed — try manually: git clone https://github.com/melvenac/power-user.git $repoDir" -ForegroundColor Red
+            $results["Curriculum"] = "FAIL"
+        }
+    } else {
+        Write-Host "  Skipped — need Git first. Re-run after installing Git." -ForegroundColor Yellow
+        $results["Curriculum"] = "BLOCKED"
+    }
+}
+Write-Host ""
+
+# ============================================
+# Results
+# ============================================
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "  Setup Results" -ForegroundColor Cyan
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host ""
+
+$allGood = $true
+foreach ($tool in @("Git", "Node.js", "npm", "VS Code", "Claude Code", "Bun", "GitHub CLI", "Curriculum")) {
+    $status = $results[$tool]
+    switch ($status) {
+        "pass"      { Write-Host "  [OK]      $tool" -ForegroundColor Green }
+        "installed" { Write-Host "  [NEW]     $tool (just installed)" -ForegroundColor Green }
+        "optional"  { Write-Host "  [SKIP]    $tool (optional — install later if needed)" -ForegroundColor Yellow }
+        "RESTART"   { Write-Host "  [RESTART] $tool (restart terminal, then verify)" -ForegroundColor Yellow; $allGood = $false }
+        "MANUAL"    { Write-Host "  [MANUAL]  $tool (install manually — see URLs above)" -ForegroundColor Red; $allGood = $false }
+        "BLOCKED"   { Write-Host "  [BLOCKED] $tool (install dependencies first, re-run script)" -ForegroundColor Red; $allGood = $false }
+        "FAIL"      { Write-Host "  [FAIL]    $tool (install manually)" -ForegroundColor Red; $allGood = $false }
+        default     { Write-Host "  [?]       $tool" -ForegroundColor Yellow }
+    }
+}
+
 Write-Host ""
 if ($allGood) {
-    Write-Host "All set! You're ready to start the curriculum." -ForegroundColor Green
+    Write-Host "All set! Opening the curriculum now..." -ForegroundColor Green
     Write-Host ""
-    Write-Host "Next steps:" -ForegroundColor Cyan
-    Write-Host "  1. Open VS Code"
-    Write-Host "  2. Set default terminal to Git Bash (Ctrl+Shift+P → Terminal: Select Default Profile)"
-    Write-Host "  3. Open a terminal and type: claude"
-    Write-Host "  4. Follow the authentication prompts"
-    Write-Host "  5. Start Module 00: curriculum/00-getting-started/"
+
+    # Open VS Code in the curriculum folder
+    $codeCmd = $null
+    if (Check-Command "code" "code --version") {
+        $codeCmd = "code"
+    } else {
+        # Check common install paths
+        $codePaths = @(
+            "$env:LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd",
+            "C:\Program Files\Microsoft VS Code\bin\code.cmd"
+        )
+        foreach ($p in $codePaths) {
+            if (Test-Path $p) { $codeCmd = $p; break }
+        }
+    }
+
+    if ($codeCmd -and (Test-Path $repoDir)) {
+        Write-Host "  Opening VS Code in $repoDir..." -ForegroundColor Cyan
+        & $codeCmd $repoDir
+        Write-Host ""
+        Write-Host "  VS Code should be opening now. When it does:" -ForegroundColor Cyan
+        Write-Host "    1. Set default terminal to Git Bash" -ForegroundColor White
+        Write-Host "       (Ctrl+Shift+P → Terminal: Select Default Profile → Git Bash)" -ForegroundColor White
+        Write-Host "    2. Open a terminal (Ctrl+``)" -ForegroundColor White
+        Write-Host "    3. Type: claude" -ForegroundColor White
+        Write-Host "    4. Follow the authentication prompts" -ForegroundColor White
+        Write-Host "    5. Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
+    } else {
+        Write-Host "Next steps:" -ForegroundColor Cyan
+        Write-Host "  1. Open VS Code" -ForegroundColor White
+        Write-Host "  2. File → Open Folder → $repoDir" -ForegroundColor White
+        Write-Host "  3. Set default terminal to Git Bash (Ctrl+Shift+P → Terminal: Select Default Profile)" -ForegroundColor White
+        Write-Host "  4. Open a terminal and type: claude" -ForegroundColor White
+        Write-Host "  5. Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
+    }
     Write-Host ""
 } else {
     Write-Host "Some items need attention — see details above." -ForegroundColor Yellow

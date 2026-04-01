@@ -10,52 +10,33 @@ A hands-on training program for becoming a Claude Code power user — from first
 
 ## Quick Start
 
-### 1. Set Up Your Dev Environment
+### One command does everything
 
-Never used Git, Node.js, or VS Code? Start here.
+The setup script installs all dependencies, clones this curriculum to `~/Projects/power-user`, and opens VS Code — ready to go.
 
-**Automatic (recommended):**
-
-Windows (PowerShell):
+**Windows** (open PowerShell):
 ```powershell
 powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex"
 ```
 
-Mac / Linux (Terminal):
+**Mac / Linux** (open Terminal):
 ```bash
 curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
 ```
 
-This checks what you have, installs what's missing, and verifies everything works.
+When VS Code opens:
+1. Set default terminal to Git Bash *(Windows only: Ctrl+Shift+P → "Terminal: Select Default Profile" → Git Bash)*
+2. Open a terminal (`Ctrl + ~`)
+3. Type `claude` and follow the authentication prompts
+4. Start reading: `curriculum/00-getting-started/00-setup.md`
 
-**Manual:** Follow the step-by-step guide in [Lesson 00: Setup](curriculum/00-getting-started/00-setup.md).
-
-### 2. Verify
-
-Open VS Code, open a terminal (`Ctrl + ~`), and run:
+**Already have Git, Node.js, and VS Code?** Just clone and go:
 ```bash
-git --version        # git version 2.x.x
-node --version       # v18.x.x or higher
-claude --version     # Claude Code version
+git clone https://github.com/melvenac/power-user.git ~/Projects/power-user
+code ~/Projects/power-user
 ```
 
-All three work? You're ready.
-
-### 3. Start the Curriculum
-
-```bash
-# Clone this repo
-git clone https://github.com/melvenac/power-user.git
-cd power-user
-
-# Open in VS Code
-code .
-
-# Open a terminal and start Claude Code
-claude
-```
-
-Begin with [Module 00: Getting Started](curriculum/00-getting-started/).
+**Prefer manual setup?** Follow the step-by-step guide in [Lesson 00: Setup](curriculum/00-getting-started/00-setup.md).
 
 ## Philosophy
 

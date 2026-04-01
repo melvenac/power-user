@@ -273,16 +273,86 @@ for tool in Git Node npm VSCode Claude Bun GH; do
     esac
 done
 
+# ============================================
+# 8. Clone curriculum repo
+# ============================================
+echo -e "${CYAN}Setting up curriculum...${NC}"
+
+PROJECTS_DIR="$HOME/Projects"
+REPO_DIR="$PROJECTS_DIR/power-user"
+
+if [[ -d "$REPO_DIR/curriculum" ]]; then
+    echo -e "  ${GREEN}Found existing curriculum at $REPO_DIR${NC}"
+    results[Curriculum]="pass"
+else
+    # Create Projects folder if it doesn't exist
+    if [[ ! -d "$PROJECTS_DIR" ]]; then
+        echo -e "  ${YELLOW}Creating $PROJECTS_DIR...${NC}"
+        mkdir -p "$PROJECTS_DIR"
+    fi
+
+    if check_command git; then
+        echo -e "  ${YELLOW}Cloning curriculum to $REPO_DIR...${NC}"
+        if git clone https://github.com/melvenac/power-user.git "$REPO_DIR" 2>/dev/null; then
+            echo -e "  ${GREEN}Curriculum ready at $REPO_DIR${NC}"
+            results[Curriculum]="installed"
+        else
+            echo -e "  ${RED}Clone failed — try manually: git clone https://github.com/melvenac/power-user.git $REPO_DIR${NC}"
+            results[Curriculum]="FAIL"
+        fi
+    else
+        echo -e "  ${YELLOW}Skipped — need Git first. Re-run after installing Git.${NC}"
+        results[Curriculum]="BLOCKED"
+    fi
+fi
+echo ""
+
+# ============================================
+# Results
+# ============================================
+echo "========================================"
+echo "  Setup Results"
+echo "========================================"
+echo ""
+
+all_good=true
+for tool in Git Node npm VSCode Claude Bun GH Curriculum; do
+    status=${results[$tool]}
+    case $status in
+        pass)      echo -e "  ${GREEN}[OK]      $tool${NC}" ;;
+        installed) echo -e "  ${GREEN}[NEW]     $tool (just installed)${NC}" ;;
+        optional)  echo -e "  ${YELLOW}[SKIP]    $tool (optional — install later if needed)${NC}" ;;
+        RESTART)   echo -e "  ${YELLOW}[RESTART] $tool (restart terminal, then verify)${NC}"; all_good=false ;;
+        MANUAL)    echo -e "  ${RED}[MANUAL]  $tool (install manually — see URLs above)${NC}"; all_good=false ;;
+        BLOCKED)   echo -e "  ${RED}[BLOCKED] $tool (install dependencies first, re-run)${NC}"; all_good=false ;;
+        FAIL)      echo -e "  ${RED}[FAIL]    $tool (install manually)${NC}"; all_good=false ;;
+        *)         echo -e "  ${YELLOW}[?]       $tool${NC}" ;;
+    esac
+done
+
 echo ""
 if $all_good; then
-    echo -e "${GREEN}All set! You're ready to start the curriculum.${NC}"
+    echo -e "${GREEN}All set! Opening the curriculum now...${NC}"
     echo ""
-    echo -e "${CYAN}Next steps:${NC}"
-    echo "  1. Open VS Code in a project folder"
-    echo "  2. Open a terminal (Ctrl+\` or Cmd+\`)"
-    echo "  3. Type: claude"
-    echo "  4. Follow the authentication prompts"
-    echo "  5. Start Module 00: curriculum/00-getting-started/"
+
+    # Open VS Code in the curriculum folder
+    if check_command code && [[ -d "$REPO_DIR" ]]; then
+        echo -e "  ${CYAN}Opening VS Code in $REPO_DIR...${NC}"
+        code "$REPO_DIR"
+        echo ""
+        echo -e "  ${CYAN}VS Code should be opening now. When it does:${NC}"
+        echo "    1. Open a terminal (Ctrl+\` or Cmd+\`)"
+        echo "    2. Type: claude"
+        echo "    3. Follow the authentication prompts"
+        echo "    4. Open curriculum/00-getting-started/00-setup.md and start reading!"
+    else
+        echo -e "${CYAN}Next steps:${NC}"
+        echo "  1. Open VS Code"
+        echo "  2. File → Open Folder → $REPO_DIR"
+        echo "  3. Open a terminal (Ctrl+\` or Cmd+\`)"
+        echo "  4. Type: claude"
+        echo "  5. Open curriculum/00-getting-started/00-setup.md and start reading!"
+    fi
     echo ""
 else
     echo -e "${YELLOW}Some items need attention — see details above.${NC}"
