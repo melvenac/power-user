@@ -128,6 +128,50 @@ Also notice the MCP wildcards (`mcp__open-brain-knowledge__*`). If you trust an 
 
 There's no rush. Move at whatever speed feels right.
 
+## Global vs. Project Permissions
+
+Permissions live in two places, and understanding when to use each matters.
+
+### Global (`~/.claude/settings.json`)
+Your personal baseline. Set it once, applies to every project. This is where the Tier 1-3 configuration we discussed goes. It represents **your** trust level with Claude Code.
+
+### Project (`.claude/settings.json`)
+Overrides for specific repos. Project settings layer on top of global — a project `deny` overrides a global `allow`.
+
+### When to use project permissions
+
+| Scenario | What to configure |
+|----------|------------------|
+| **Production / infra repo** | Tighten: deny `Bash(git push *)`, deny `Bash(rm *)` — extra guardrails |
+| **Shared team repo** | Define the team's baseline — committed to git, everyone gets it |
+| **Experimental / sandbox** | Loosen: allow general `Bash` — nothing to break |
+| **Client work** | Deny `WebSearch`, deny network tools — keep code off the wire |
+| **Sensitive data** | Deny MCP tools that could send data externally |
+
+### Example: Locking down a production repo
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm -rf*)",
+      "Bash(drop *)",
+      "Bash(docker rm*)"
+    ]
+  }
+}
+```
+
+Your global allows `Bash(git *)`, but this project specifically blocks the dangerous git operations. The safe ones (status, log, diff, add, commit) still work.
+
+### The rule of thumb
+
+- **Global:** your permissive, productive baseline (set once)
+- **Project:** only when a repo has different risk than your default
+- **Most repos:** global is enough — don't over-configure
+
 ## The settings.json Deep Dive
 
 Beyond permissions, settings.json controls:
