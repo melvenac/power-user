@@ -70,7 +70,33 @@ If SUMMARY.md doesn't exist, say "No .agents/ framework found.
 Run /bootstrap first."
 ```
 
-## Practical Commands to Build
+## The Framework Commands
+
+If you're using the Self-Improving Agent framework (set up via `/bootstrap`), you already have the most important commands:
+
+### /start — Session Start
+Loads project state, recalls relevant knowledge, creates a session log. **Run this at the beginning of every session.**
+
+### /end — Session End  
+Updates SUMMARY.md, checks off tasks, writes handoff notes. **Run this at the end of every session.**
+
+### /sync — Validate Before Commit
+Checks version consistency across docs, validates structural integrity, flags drift. **Run this before every commit.**
+
+### /task — Pick Up Next Task
+Reads INBOX.md and task.md, presents the next priority, starts work.
+
+### /test — Zero-Token Testing
+Writes Playwright test scripts (AI tokens), then runs them natively (zero tokens). Five phases: assess → author → execute → fix loop → report. We cover this in detail in Module 08.
+
+These five commands are the backbone of the framework workflow:
+```
+/start → work → /task → work → /test → /sync → commit → /end
+```
+
+## Building Your Own Commands
+
+Beyond the framework commands, you'll want custom ones for your specific workflows.
 
 ### /morning — Start your day
 ```markdown

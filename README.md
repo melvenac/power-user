@@ -26,6 +26,7 @@ A hands-on training program for becoming a Claude Code power user — from first
 | 05 | [Multi-Agent Work](curriculum/05-multi-agent/) | Advanced |
 | 06 | [Skills & Hooks](curriculum/06-skills-and-hooks/) | Advanced |
 | 07 | [Building Your Stack](curriculum/07-building-your-stack/) | Advanced |
+| 08 | [The Framework](curriculum/08-the-framework/) | Capstone |
 
 ## Stack Paths
 
