@@ -141,39 +141,87 @@ Skills aren't static. They evolve:
 
 In advanced setups, skills can even be proposed automatically when patterns emerge from your stored experiences. But that's an advanced topic — for now, create them manually when you notice repeated patterns.
 
-## Real-World Skills: What Aaron Actually Uses
+## Real-World Skills: From Simple to System
 
-These are real skills from daily development, not hypothetical examples:
+Skills start small and grow. Here's the real progression from a single command to a full skills library.
 
-### The `/transcript` Skill
+### Where It Starts: Simple Command-Style Skills
+
+These are slash commands that codify a repeatable workflow:
+
+**`/transcript`** — turns a 30-minute YouTube video into a 30-second summary:
 ```markdown
-# YouTube Transcript
-Transcribe a YouTube video, index it in the sandbox, and offer to save.
-
-## Instructions
 1. Extract the video ID from the URL
 2. Fetch the transcript via python youtube_transcript_api
 3. Summarize: key topics, speakers, main takeaways
 4. Ask "Worth saving?" — offer to persist to knowledge base
 ```
-**Why it exists:** Aaron watches dev content and wants key takeaways indexed automatically. This skill turns a 30-minute video into a 30-second summary.
 
-### The `/bootstrap` Skill
+**`/bootstrap`** — scaffolds any new project in seconds:
 ```markdown
-# Bootstrap a new project
 1. Scan the project and generate CLAUDE.md
 2. Scaffold .agents/ directory (TASKS/, SYSTEM/, SESSIONS/)
 3. Create lightweight session commands (/start, /end, /task, /sync)
 4. Report what was created
 ```
-**Why it exists:** Every new project needs the same scaffolding. Instead of doing it manually each time, one command sets everything up.
 
-### The Pattern
-Both skills came from the same process:
-1. Aaron did the task manually several times
-2. The steps were consistent enough to codify
-3. A skill file was created and tested
-4. Now it runs in seconds instead of minutes
+Both came from the same process: did it manually several times → steps were consistent → codified → now runs in seconds.
+
+### Where It Goes: A Mature Skills Library
+
+After months of development on the Tarrant County Makerspace project (Next.js + Convex + Clerk + Stripe), the skills library grew to **15 skills** organized by domain. Here's the real INDEX:
+
+| Skill | When It Triggers | What It Knows |
+|-------|-----------------|---------------|
+| **Session Manager** | Every `/start` and `/end` | How to load context, write session logs, maintain continuity |
+| **Convex Schema Guard** | Schema changes, new tables, index additions | Data integrity rules, validation patterns, entity drift checking |
+| **Stripe Lazy Init** | Any Convex Action that calls Stripe | Prevents build-time analysis failures — Stripe client must be lazy-initialized |
+| **Playwright Tester** | E2E testing needed | Writes `.spec.ts` files, runs natively (zero tokens), auto-fixes failures (max 3 attempts) |
+| **shadcn/ui** | Adding or customizing UI components | CLI install patterns, component customization, Tailwind integration |
+| **FullCalendar + Convex** | Calendar UI, booking features | Real-time data binding, date range fetching, event rendering |
+| **Drawer Auth + Checkout** | Multi-step drawers with sign-in or payment | Embedded Clerk auth, OAuth persistence via sessionStorage, Stripe embedded checkout, 12-point checklist |
+| **Content Writer** | Editorial pages, member stories | 5-act narrative arc, NotebookLM research workflow, voice/tone guide |
+| **SEO Optimizer** | Any public-facing page | Meta tags, JSON-LD schema, keyword strategy, audit framework |
+| **Migration Engine** | WordPress → Convex data migration | PMPro member mapping, Clerk user creation, data transformation |
+| **Convex Component Authoring** | Creating new isolated Convex domains | Schema + functions + registration pattern |
+| **PR Summarizer** | End of session, commit time | Commit message formatting, session walkthrough generation |
+| **UI Standardizer** | Creating or refactoring React components | Design system enforcement, audit checklist |
+
+### What Makes This System Work
+
+**1. The Skills INDEX** — a single file that maps every skill to its trigger conditions. Claude Code reads this first and knows which skills to consult for any given task.
+
+**2. Trigger conditions, not manual activation** — you don't type `/convex-schema-guard`. You modify a schema file, and the skill knowledge is automatically available.
+
+**3. Gotcha documentation** — each skill captures hard-won lessons. The Drawer Auth skill has this note:
+> `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` must start with `pk_test_` or `pk_live_`. If it starts with `ppk_test_`, it's been copied wrong — extra `p`.
+
+That's a real bug that took an hour to find once. The skill ensures it's found in seconds from now on.
+
+**4. Dependency pinning** — the INDEX pins exact versions so skills give accurate code examples:
+```
+next: 16.x | convex: 1.32+ | @clerk/nextjs: 6.x | stripe: 20.x
+```
+
+**5. Validation scripts** — automated checks that run alongside skills:
+```
+npm run validate:entities  → checks for entity drift (runs during /end)
+npm run validate:session   → checks session protocol compliance
+```
+
+### The Progression
+
+You don't build 15 skills on day one. Here's how it actually happened:
+
+```
+Month 1:  session-manager (start/end lifecycle)
+Month 2:  convex-schema-guard, stripe-lazy-init (hard bugs captured)
+Month 3:  playwright-tester, shadcn-ui (workflow patterns)
+Month 4:  content-writer, seo-optimizer (domain knowledge)
+Month 5+: drawer-auth-checkout, fullcalendar-convex (complex integrations)
+```
+
+Each skill started as a correction ("don't do it that way") that happened enough times to justify codifying. The system grows organically — you don't plan it, you notice it.
 
 ## Exercise: Create Your First Skill
 
