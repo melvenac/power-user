@@ -93,6 +93,33 @@ Be honest about this:
 
 Claude Code shines when you're **building real software** — writing code, managing projects, shipping features, maintaining codebases. That's where it has no equal.
 
+## Exercise: Meet Your Model
+
+Try these in Claude Code right now:
+
+### Part 1: What are you?
+Ask Claude Code:
+```
+"What model are you? What's the difference between you and Sonnet?"
+```
+Notice: it knows what model it's running and can explain the trade-offs.
+
+### Part 2: See the agent difference
+Ask:
+```
+"What files are in this directory?"
+```
+Claude Code doesn't *guess* — it uses the **Glob** tool to actually look. Watch the tool call in the output. This is the difference between a chatbot (guesses from training data) and an agent (uses tools to check).
+
+Now try the same question in ChatGPT or Claude chat (claude.ai). You'll get a guess based on common project structures, or "I can't see your files." That's the difference.
+
+### Part 3: Right tool for the job
+Try asking Claude Code something it's NOT best at:
+```
+"What's the weather in Fort Worth today?"
+```
+It might try a web search, but this isn't what it's built for. Perplexity or Google would be better here. Knowing when NOT to use a tool is as important as knowing when to use it.
+
 ## What Matters for This Curriculum
 
 You don't need to understand how LLMs work internally to be a power user. What matters:

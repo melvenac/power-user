@@ -155,13 +155,57 @@ MCP servers run on your machine with your permissions. Be thoughtful about:
 
 This isn't paranoia — it's good practice. You wouldn't install random npm packages without checking them, and MCP servers deserve the same scrutiny.
 
-## Exercise: Connect and Explore
+## Exercise: Install Your First MCP Server (End to End)
 
-1. Pick one MCP server to install (filesystem is easiest to start with)
-2. Add it to your settings
-3. Restart Claude Code
-4. Ask Claude Code to use it for something practical
-5. Ask: `"What new capabilities does this MCP server give us?"`
+This exercise walks you through the full lifecycle: install, configure, restart, verify, use. We'll install a real server you'll actually keep.
+
+### Option A: Context Mode (recommended for this curriculum)
+Context Mode keeps large tool outputs in a sandbox instead of flooding your context window. It's a plugin, not a traditional MCP server, but the install process teaches the same pattern.
+
+```
+"Install the context-mode plugin from the mksglu/context-mode 
+GitHub marketplace. Add it to my global settings."
+```
+
+### Option B: Filesystem Server (simplest traditional MCP)
+```
+"Add the @modelcontextprotocol/server-filesystem MCP server to my 
+global settings, scoped to my home directory."
+```
+
+### Option C: Smart Connections (if you use Obsidian)
+```
+"Add the smart-connections MCP server to my global settings, 
+pointed at my Obsidian vault."
+```
+
+### After installing (all options):
+
+**Step 1: Restart**
+Close Claude Code and reopen. MCP servers load at startup.
+
+**Step 2: Verify**
+```
+"What MCP tools are available? List the ones from [server name]."
+```
+You should see new tools that weren't there before.
+
+**Step 3: Use it**
+```
+"Use one of the new MCP tools to do something useful right now."
+```
+
+**Step 4: Understand what happened**
+```
+"Explain what just happened — which MCP tool did you use, 
+what did it do, and how is it different from your built-in tools?"
+```
+
+### What you learned
+- MCP servers are configured in `settings.json` (global or project)
+- They load at startup — you restart to pick them up
+- Each one adds new tools Claude Code can use
+- The pattern is always: config → restart → verify → use
 
 ## Key Takeaway
 

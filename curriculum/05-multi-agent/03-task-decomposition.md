@@ -86,7 +86,43 @@ You: Compare results, pick the winner
 
 **Never:** two agents editing the same file at the same time. That's how you get merge conflicts in your own working directory.
 
-## Real-World Example
+## Real-World Example: Building This Curriculum
+
+This curriculum was built using task decomposition. Here's how a real session worked:
+
+**The task:** "Add exercises and real-world examples to every lesson that's missing them"
+
+**Step 1: Audit (Explore agent)**
+```
+"For every lesson file across all modules, check: does it have an 
+Exercise section? Does it have real-world examples? Does it have 
+code blocks the user can try? Report a structured summary."
+```
+The agent explored 39 files and returned a structured report — which lessons had gaps, which were solid, which were purely conceptual.
+
+**Step 2: Aaron reviews and prioritizes**
+From the audit: 3 lessons missing exercises entirely, 8 without code blocks, several with generic exercises that could be richer. Priority: early modules first (that's where new users spend the most time).
+
+**Step 3: Read target files (sequential, because edits depend on content)**
+Read each file that needs enhancement — can't write a good exercise without understanding what the lesson teaches.
+
+**Step 4: Implement (batched edits, independent files)**
+Six files edited in parallel — each exercise was independent, no file depended on another:
+- Module 00: "Meet Your Model" exercise
+- Module 01: Tool scavenger hunt + custom command builder
+- Module 02: CLAUDE.md 5-question test
+- Module 06: Real hook config + notification sound exercise + real skills examples
+
+**Step 5: Review and iterate**
+Read the results, check for consistency, fix anything that references a concept not yet introduced at that point in the curriculum.
+
+**Why this worked:**
+- The audit agent had its own context — exploring 39 files didn't fill the main session
+- Each edit was independent — no merge conflicts, no ordering issues
+- The human review step (Step 2) caught prioritization that an agent would miss
+- Batching independent edits saved time without sacrificing quality
+
+## Another Real Example: API Error Handling
 
 Task: "Add comprehensive error handling to our API"
 

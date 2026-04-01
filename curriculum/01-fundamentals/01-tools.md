@@ -57,26 +57,46 @@ You say something
 
 This cycle can repeat many times in a single response. A complex task might involve 10+ tool calls.
 
-## Exercise: Tool Spotting
+## Exercise: Tool Scavenger Hunt
 
-Give Claude Code this prompt in any project:
+This exercise teaches you to recognize tools by giving you tasks that require specific ones. Do this in the `power-user` repo (or any project with multiple files).
 
+### Round 1: File finding (Glob)
 ```
-"Find the largest file in this project, read it, 
-and tell me what it does."
+"Find all markdown files in this project"
 ```
+Watch: Claude Code uses **Glob** with a pattern like `**/*.md`. Note how many files it finds.
 
-Watch the tool calls:
-1. It'll use **Bash** (`ls` or `du`) or **Glob** to find files
-2. It'll use **Read** to look at the contents
-3. It'll use its reasoning to explain
-
-Now try:
+### Round 2: Content searching (Grep)
 ```
-"Find every file that imports React and list them"
+"Find every file that mentions 'exercise' in its contents"
 ```
+Watch: Claude Code uses **Grep** to search inside files — different from Glob, which only matches file names.
 
-This one will use **Grep** (searching for `import.*React` or `require.*react`).
+### Round 3: Reading (Read)
+```
+"Read the first 20 lines of the README"
+```
+Watch: Claude Code uses **Read** with a line limit. It doesn't read the whole file — that would waste context.
+
+### Round 4: Chaining tools
+```
+"Find the largest markdown file in this project, read it, 
+and summarize it in 3 bullets"
+```
+Watch the chain: **Bash** (to check file sizes) → **Read** (to see contents) → reasoning (to summarize). Multiple tools, one prompt.
+
+### Round 5: The wrong tool
+```
+"Search the web for Claude Code documentation"
+```
+Watch: Claude Code uses **WebSearch**, not Grep. It knows the difference between searching your files and searching the internet.
+
+### Reflect
+After each round, ask yourself:
+- Which tool did it pick?
+- Could you have predicted it from the prompt?
+- What words in your prompt signaled which tool? ("find files" → Glob, "search contents" → Grep, "read" → Read)
 
 ## Tool Permissions
 

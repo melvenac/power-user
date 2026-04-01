@@ -56,6 +56,18 @@ When you need to search a large codebase, use the Agent tool. Sub-agents get the
 ### 5. Watch the context indicator
 Claude Code shows context usage. When you're past 50%, start being more conservative. Past 75%, consider starting fresh.
 
+### 6. Build a status line (power move)
+You can add a persistent status line to your terminal that shows context usage at all times. Here's what Aaron's looks like:
+
+```
+Opus 4.6 (1M context) │ [█████████░] 91% left │ $25.42 │ 11:59:08
+  power-user │ master
+```
+
+Line 1: model name, context bar with percentage, session cost, clock. Line 2: project folder, git branch, worktree (if active). This makes the 50% rule effortless — you never have to ask "how much context have I used?" because it's always visible.
+
+We'll build this in the exercise below.
+
 ## The 50% Rule
 
 A good rule of thumb: if you're past 50% context and starting new work, it's often better to `/compact` or start a new session than to keep going. Your results will be better with fresh context.
@@ -208,6 +220,63 @@ This is a hands-on exercise. Do it in Claude Code right now — it takes about 1
 - `/compact` with a focus prompt gives you control over what survives (Part 2)
 - The focus prompt is the difference between "I chose what to keep" and "I hope it kept the right stuff" (Part 3 vs Part 4)
 - This is a skill you'll use in every long session going forward
+
+## Exercise: Build a Status Line
+
+This exercise gives you a permanent context window monitor — so you never have to ask "how much context have I used?" again.
+
+### What you're building
+A two-line status bar at the bottom of your Claude Code terminal:
+```
+Opus 4.6 (1M context) │ [█████████░] 91% left │ $25.42 │ 11:59:08
+  power-user │ master
+```
+
+### Step 1: Create the script
+Ask Claude Code:
+```
+"Create a status line script at ~/.claude/statusline-command.sh 
+that reads JSON from stdin (Claude Code pipes session data) and 
+displays:
+
+Line 1: model name, context window bar with percentage remaining, 
+session cost in USD, current time
+Line 2: current folder name, git branch
+
+Use │ as separator. Make the bar 10 characters wide using █ and ░.
+Dim the output with ANSI codes so it doesn't distract."
+```
+
+Claude Code will write a bash+node script that parses the JSON and formats the output.
+
+### Step 2: Wire it up
+Ask Claude Code:
+```
+"Add a statusLine entry to my global settings.json that runs 
+bash ~/.claude/statusline-command.sh"
+```
+
+The config looks like:
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"C:\\Users\\YourName\\.claude\\statusline-command.sh\""
+  }
+}
+```
+
+### Step 3: Restart and see it
+Close Claude Code, reopen. You should see the status line at the bottom of your terminal. It updates in real time as you work.
+
+### Step 4: Watch it during a session
+Now do some real work — read files, have a conversation, run commands. Watch the context bar shrink as you use context. When it hits 50%, you know it's time to think about compacting.
+
+### What you learned
+- The status line reads live session data (model, context, cost, time)
+- It makes the 50% rule visible — you don't have to remember to check
+- The cost tracker helps you understand what different operations cost
+- This is a tool you'll use in every session from now on
 
 ## Key Takeaway
 

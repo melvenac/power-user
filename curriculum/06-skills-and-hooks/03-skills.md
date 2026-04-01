@@ -141,13 +141,70 @@ Skills aren't static. They evolve:
 
 In advanced setups, skills can even be proposed automatically when patterns emerge from your stored experiences. But that's an advanced topic — for now, create them manually when you notice repeated patterns.
 
+## Real-World Skills: What Aaron Actually Uses
+
+These are real skills from daily development, not hypothetical examples:
+
+### The `/transcript` Skill
+```markdown
+# YouTube Transcript
+Transcribe a YouTube video, index it in the sandbox, and offer to save.
+
+## Instructions
+1. Extract the video ID from the URL
+2. Fetch the transcript via python youtube_transcript_api
+3. Summarize: key topics, speakers, main takeaways
+4. Ask "Worth saving?" — offer to persist to knowledge base
+```
+**Why it exists:** Aaron watches dev content and wants key takeaways indexed automatically. This skill turns a 30-minute video into a 30-second summary.
+
+### The `/bootstrap` Skill
+```markdown
+# Bootstrap a new project
+1. Scan the project and generate CLAUDE.md
+2. Scaffold .agents/ directory (TASKS/, SYSTEM/, SESSIONS/)
+3. Create lightweight session commands (/start, /end, /task, /sync)
+4. Report what was created
+```
+**Why it exists:** Every new project needs the same scaffolding. Instead of doing it manually each time, one command sets everything up.
+
+### The Pattern
+Both skills came from the same process:
+1. Aaron did the task manually several times
+2. The steps were consistent enough to codify
+3. A skill file was created and tested
+4. Now it runs in seconds instead of minutes
+
 ## Exercise: Create Your First Skill
 
-1. Think of knowledge you've corrected Claude Code on more than once
-2. Write it as a skill with trigger conditions, patterns, and examples
-3. Save it to `.claude/skills/` or `.agents/skills/`
-4. Work on something that should trigger it
-5. Did it apply? If not, refine the triggers.
+### Part 1: Find your pattern
+Think about your last few Claude Code sessions. What did you repeat? Common candidates:
+- Code review checklist you always follow
+- Setup steps for a new feature
+- Testing patterns you always apply
+- Commit message format you correct every time
+
+### Part 2: Write it
+Ask Claude Code:
+```
+"Help me create a skill file. I want to codify this pattern:
+[describe what you do repeatedly]
+
+Create it as .claude/skills/[name].md with:
+- When to Apply section (trigger conditions)
+- Patterns section (the rules)
+- Common Mistakes section
+- Examples section (before/after)"
+```
+
+### Part 3: Test it
+Work on something that should trigger the skill. Ask Claude Code:
+```
+"What skills are available? Does any apply to what we're doing?"
+```
+
+### Part 4: Refine
+If it didn't trigger when it should have, tighten the trigger conditions. If it triggered when it shouldn't have, loosen them. Skills get better with iteration — your first draft won't be perfect, and that's fine.
 
 ## Key Takeaway
 

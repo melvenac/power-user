@@ -161,14 +161,117 @@ Keep it fast. Hooks run synchronously — slow hooks slow down Claude Code.
 ### Step 4: Test it
 Trigger the event and check the output. Use `echo` statements for debugging.
 
-## Exercise: Create a Safety Hook
+## Real-World Example: Aaron's Hook Setup
 
-Create a PreToolUse hook that:
-1. Logs every Bash command to a file (`~/.claude-tool-log.txt`)
-2. Blocks any Bash command containing `--force` or `--hard`
-3. Allows everything else
+Here's what a production hook configuration actually looks like. These aren't hypothetical — they run in every session:
 
-This gives you an audit trail and a safety net.
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Read|Grep|Agent|Task",
+        "hooks": [{ "type": "command", "command": "node .../pretooluse.mjs" }]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "node .../log-git-ops.mjs", "if": "Bash(git *)" }]
+      }
+    ],
+    "SessionEnd": [
+      { "hooks": [{ "type": "command", "command": "node .../session-end.mjs" }] },
+      { "hooks": [{ "type": "command", "command": "node .../skill-scan.mjs" }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "powershell .../play-random.ps1" }] }
+    ]
+  }
+}
+```
+
+What each one does:
+- **PreToolUse (context-mode):** Intercepts tool calls and suggests sandbox alternatives to protect context window
+- **PreToolUse (log-git-ops):** Logs every git command for session tracking — uses `"if": "Bash(git *)"` to filter
+- **SessionEnd (session-end):** Writes session data to a knowledge database automatically
+- **SessionEnd (skill-scan):** Scans the session for repeatable patterns that could become skills
+- **Stop (play-random):** Plays a random sound when Claude Code finishes — a small quality-of-life touch
+
+Notice the layering: some hooks use `matcher` to filter which tools trigger them. Some use `"if"` for pattern matching. This gives you fine-grained control.
+
+## Exercise: Build a Notification Sound Hook
+
+This is a fun, quick hook that teaches you the full hook lifecycle. You'll build the same "finished" notification that Aaron uses — a random sound effect that plays every time Claude Code completes a response.
+
+### Step 1: Get some sounds
+Go to [myinstants.com](https://www.myinstants.com/) and download a few mp3 sound effects. Pick ones that'll make you smile — meme sounds, classic effects, whatever you want. Save them to `~/.claude/sound/`.
+
+Aaron's collection includes gems like `taco-bell-bong-sfx.mp3`, `rizz-sound-effect.mp3`, and `dry-fart.mp3`. The randomness is half the fun.
+
+### Step 2: Create the player script
+Ask Claude Code to create the script. Here's what Aaron's looks like (Windows/PowerShell):
+
+```powershell
+# ~/.claude/sound/play-random.ps1
+Add-Type -AssemblyName PresentationCore
+$dir = "C:\Users\YourName\.claude\sound"
+$files = Get-ChildItem $dir -Filter *.mp3
+$pick = $files | Get-Random
+$player = New-Object System.Windows.Media.MediaPlayer
+$player.Open([Uri]::new($pick.FullName))
+$player.Play()
+# MediaPlayer is async — wait for it to finish (max 10s)
+Start-Sleep -Milliseconds 500
+$duration = $player.NaturalDuration
+if ($duration.HasTimeSpan) {
+    $ms = [int]$duration.TimeSpan.TotalMilliseconds
+    if ($ms -gt 0 -and $ms -lt 10000) { Start-Sleep -Milliseconds $ms }
+    else { Start-Sleep -Seconds 3 }
+} else {
+    Start-Sleep -Seconds 3
+}
+$player.Close()
+```
+
+Or ask Claude Code to write a cross-platform version:
+```
+"Create a script that picks a random mp3 from ~/.claude/sound/ 
+and plays it. Make it work on my OS."
+```
+
+### Step 3: Wire it up
+Ask Claude Code:
+```
+"Add a Stop hook to my settings.json that runs my play-random 
+script with a 15 second timeout"
+```
+
+The hook config looks like:
+```json
+{
+  "Stop": [{
+    "hooks": [{
+      "type": "command",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\YourName\\.claude\\sound\\play-random.ps1\"",
+      "timeout": 15
+    }]
+  }]
+}
+```
+
+### Step 4: Test it
+Give Claude Code any task — even just `"hello"`. When it finishes, you should hear a random sound from your collection. Add more mp3s anytime — the script picks randomly from whatever's in the folder.
+
+### Step 5: Graduate to a safety hook
+Now build the real thing. Ask Claude Code:
+```
+"Create a PreToolUse hook script at ~/.claude/hooks/guard.mjs that:
+1. Logs every Bash command to ~/.claude/tool-log.txt with a timestamp
+2. Blocks any Bash command containing --force or --hard (exit code 2)
+3. Allows everything else (exit code 0)
+Then wire it into my settings.json"
+```
+
+Test it by asking Claude Code to run `git push --force` — the hook should block it and explain why.
 
 ## Key Takeaway
 

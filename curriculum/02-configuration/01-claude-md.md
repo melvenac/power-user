@@ -80,20 +80,49 @@ Your personal overrides for this project:
 
 ## Exercise: Write Your First CLAUDE.md
 
-If you used `/bootstrap` in Module 00, you already have one. Open it and improve it:
+### Part 1: Audit what you have
+If you used `/bootstrap` in Module 00, you already have one. Let's see how good it is.
 
-1. **Read it:** Ask Claude Code "read our CLAUDE.md and tell me what's missing"
-2. **Add conventions:** Think of 3 rules you'd tell a new team member on day one
-3. **Add commands:** Make sure build, test, dev, and lint are all listed
-4. **Cut the fluff:** Remove anything that's obvious from the code itself
-
-Then test it:
+Ask Claude Code:
 ```
-"Based on our CLAUDE.md, what tech stack are we using 
-and what's the test command?"
+"Read our CLAUDE.md and tell me: what would a new developer 
+need to know that's NOT in here?"
+```
+Claude Code will read the file and identify gaps. Make note of what's missing.
+
+### Part 2: The 5-question test
+A good CLAUDE.md answers these questions without reading any other file. Ask each one:
+
+1. `"What tech stack does this project use?"`
+2. `"How do I run the dev server?"`
+3. `"How do I run tests?"`
+4. `"What are the coding conventions?"`
+5. `"What's the project structure?"`
+
+Score: if Claude Code answers all 5 correctly from the CLAUDE.md alone, it's solid. If it has to read other files or guess, the CLAUDE.md needs work.
+
+### Part 3: Improve it
+Add what's missing. Three rules:
+- **Add conventions:** Think of 3 rules you'd tell a new team member on day one
+- **Add commands:** Make sure build, test, dev, and lint are all listed
+- **Cut the fluff:** Remove anything that's obvious from the code itself
+
+Tell Claude Code:
+```
+"Update our CLAUDE.md with: [your conventions]. 
+Keep it under 30 lines — short and opinionated."
 ```
 
-If Claude answers correctly from the CLAUDE.md alone, it's working.
+### Part 4: The before/after test
+Run the 5-question test again. Compare the answers. Better? That improvement applies to every future session — Claude Code reads this file first, every time.
+
+### Part 5 (Bonus): Try all three layers
+If you want to see the layer system in action:
+1. Check your global CLAUDE.md: `"Read ~/.claude/CLAUDE.md"`
+2. Check your project CLAUDE.md: `"Read CLAUDE.md"`
+3. Ask: `"What instructions are you working with right now?"`
+
+Claude Code will show you the merged result — global + project + personal, all combined.
 
 ## Real-World Example
 

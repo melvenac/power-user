@@ -121,15 +121,87 @@ During work:
   Layer 5: Gone (but persisted in Layers 2 and 4)
 ```
 
-## Exercise: Audit Your Memory
+## Real-World Example: Aaron's Memory in Action
 
-1. **Check Layer 1:** `"Read our CLAUDE.md — is it up to date?"`
-2. **Check Layer 2:** `"Read .agents/SUMMARY.md — is this accurate?"`
-3. **Check Layer 3:** `"What memory files exist in .claude/memory?"`
-4. **Check Layer 4:** If you have a knowledge MCP: `"Recall knowledge related to this project"`
-5. **Fix anything stale:** Update whatever's outdated
+Here's what a real memory system looks like after months of use. This is from the `power-user` project you're reading right now.
 
-Stale memory is worse than no memory — it leads Claude Code astray.
+**Layer 1 (CLAUDE.md):**
+```markdown
+## Conventions
+- Lessons are markdown with embedded exercise blocks
+- Keep language accessible — this is for people learning, not experts
+- Explain the *why* behind every recommendation
+```
+Loaded every session. Never changes unless the project changes.
+
+**Layer 2 (.agents/ state):**
+```markdown
+# SUMMARY.md
+Public v1.0.0 — full curriculum complete. Iterating on exercises and real-user feedback.
+```
+Updated every `/end`. Tells the next session where things stand.
+
+**Layer 3 (Auto-memory):**
+```markdown
+# user_aaron.md
+Aaron — owner of Tarrant County Makerspace, prefers concise responses,
+deep Go experience, new to React frontend work.
+
+# feedback_testing.md
+Always run tests after code changes. Don't add trailing summaries.
+
+# project_power_user.md
+/bootstrap stays lightweight. Full framework graduates in Module 08.
+```
+These were saved when Claude Code learned something worth remembering. Some were explicit ("remember that we decided..."), some were automatic.
+
+**Layer 4 (Knowledge base):**
+Previous sessions indexed — "when we built the setup scripts, winget worked better than chocolatey on Windows", "VS Code orientation lesson came from Bill and Brian's real confusion navigating the IDE."
+
+**Layer 5 (Session context):**
+Right now — this conversation, the files we've read, the edits we've made. Gone when the session ends, but the important parts flow into Layers 2-4.
+
+## Exercise: Audit Your Memory Layers
+
+This exercise takes you through each layer of your own memory system. Do it in a real project — the power-user repo works fine.
+
+### Part 1: Check each layer
+Run these one at a time and note what you find:
+
+1. **Layer 1:** `"Read our CLAUDE.md — is it up to date?"`
+2. **Layer 2:** `"Read .agents/SYSTEM/SUMMARY.md — is this accurate?"`
+3. **Layer 3:** `"What memory files exist in .claude/memory/ or ~/.claude/projects/*/memory/?"`
+4. **Layer 4 (if you have a knowledge MCP):** `"Recall knowledge related to this project"`
+5. **Layer 5:** `"How much context have we used in this session?"`
+
+### Part 2: Find stale memory
+Ask Claude Code:
+```
+"Read all my memory files for this project. Flag anything that's 
+outdated or no longer accurate."
+```
+Stale memory is worse than no memory — it leads Claude Code astray. Fix or delete anything outdated.
+
+### Part 3: Write a new memory
+Tell Claude Code something worth remembering:
+```
+"Remember that I prefer [your preference here]"
+```
+Then check: `"What memory files exist now?"` — you should see a new one.
+
+Start a **new session** and ask:
+```
+"What do you know about my preferences?"
+```
+If it recalls what you told it — the memory system is working. If not, check that the memory file was saved to the right location.
+
+### Part 4: See the layers merge
+Ask:
+```
+"What instructions and context are you working with right now? 
+Show me what came from CLAUDE.md vs memory vs the current session."
+```
+This shows you the full picture — all five layers merged into one working context.
 
 ## Key Takeaway
 
