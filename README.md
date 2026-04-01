@@ -93,6 +93,8 @@ Choose your track based on what you're building:
 | Git | 2.x+ | [git-scm.com](https://git-scm.com) or run the setup script |
 | Node.js | 18+ | [nodejs.org](https://nodejs.org) (LTS) or run the setup script |
 | VS Code | Latest | [code.visualstudio.com](https://code.visualstudio.com) or run the setup script |
+| GitHub account | — | [github.com/signup](https://github.com/signup) (free) |
+| GitHub CLI | Latest | [cli.github.com](https://cli.github.com) or run the setup script |
 | Claude Code | Latest | `npm install -g @anthropic-ai/claude-code` |
 | Claude account | — | [claude.ai](https://claude.ai) (Pro, Max, or API key) |
 

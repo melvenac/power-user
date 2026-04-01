@@ -2,7 +2,7 @@
 
 ## Before You Start
 
-This lesson gets your machine ready for Claude Code. If you've already got Git, Node.js, VS Code, and Claude Code installed — skip to [What Is Claude Code?](03-what-is-claude-code.md).
+This lesson gets your machine ready for Claude Code. If you've already got Git, Node.js, VS Code, GitHub CLI, and Claude Code installed — skip to [What Is Claude Code?](03-what-is-claude-code.md).
 
 If not, read on. We'll get you from zero to ready in about 15 minutes.
 
@@ -13,9 +13,10 @@ If not, read on. We'll get you from zero to ready in about 15 minutes.
 | **Git** | Version control — tracks your code changes | Yes |
 | **Node.js 18+** | JavaScript runtime — runs Claude Code | Yes |
 | **VS Code** | Code editor with integrated terminal | Yes |
+| **GitHub account** | Where your code lives — signup at [github.com](https://github.com) | Yes |
+| **GitHub CLI** | GitHub from the terminal — needed for feedback and git workflow | Yes |
 | **Claude Code** | The AI agent you're learning to use | Yes |
 | **Bun** | Fast JS runtime (Aaron's stack) | Optional |
-| **GitHub CLI** | Git operations from the terminal | Optional |
 
 ## Option A: The Setup Script (Recommended)
 
