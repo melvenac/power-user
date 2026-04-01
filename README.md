@@ -14,9 +14,15 @@ A hands-on training program for becoming a Claude Code power user — from first
 
 The setup script installs all dependencies, clones this curriculum to `~/Projects/power-user`, and opens VS Code — ready to go.
 
-**Windows** — open PowerShell (`Win + X` → click Terminal), then paste these two lines one at a time:
+**Windows** — open PowerShell (`Win + X` → click Terminal), then paste each command:
+
+Download the script:
 ```powershell
 irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+```
+
+Run it:
+```powershell
 powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
 > Don't know what PowerShell is? It's the command-line app built into every Windows PC. See [Lesson 00](curriculum/00-getting-started/00-setup.md) for a full walkthrough.

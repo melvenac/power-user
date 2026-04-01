@@ -32,10 +32,15 @@ First, open **PowerShell** — this is the command-line app built into every Win
 
 > **What is this?** PowerShell is like a text-based remote control for your computer. Instead of clicking through menus, you type instructions. It looks intimidating, but you'll only need it for this one setup step — after that, you'll use VS Code's built-in terminal for everything.
 
-Now paste these two lines, one at a time, pressing Enter after each:
+Now paste each command below, one at a time, pressing Enter after each:
 
+**Step 1 — Download the script:**
 ```powershell
 irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+```
+
+**Step 2 — Run it:**
+```powershell
 powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
 
@@ -250,8 +255,13 @@ Norton, McAfee, Windows Defender, and other antivirus software sometimes block t
 **How to fix it:**
 
 1. **Use the two-step install** (recommended — avoids the trigger entirely):
+
+   Download:
    ```powershell
    irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+   ```
+   Run:
+   ```powershell
    powershell -ExecutionPolicy Bypass -File setup.ps1
    ```
 
