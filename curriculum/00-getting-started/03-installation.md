@@ -95,4 +95,4 @@ This exercise teaches you to **ask Claude Code to explain itself**. That's a hab
 
 ---
 
-**Next:** [Your First Real Task](03-first-task.md)
+**Next:** [Your First Real Task](04-first-task.md)

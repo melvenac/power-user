@@ -2,7 +2,7 @@
 
 ## Before You Start
 
-This lesson gets your machine ready for Claude Code. If you've already got Git, Node.js, VS Code, and Claude Code installed — skip to [What Is Claude Code?](01-what-is-claude-code.md).
+This lesson gets your machine ready for Claude Code. If you've already got Git, Node.js, VS Code, and Claude Code installed — skip to [What Is Claude Code?](02-what-is-claude-code.md).
 
 If not, read on. We'll get you from zero to ready in about 15 minutes.
 
@@ -184,7 +184,7 @@ npm --version        # Should show: 10.x.x or similar
 claude --version     # Should show: Claude Code version
 ```
 
-**All four work?** You're ready. Move to [What Is Claude Code?](01-what-is-claude-code.md)
+**All four work?** You're ready. Move to [What Is Claude Code?](02-what-is-claude-code.md)
 
 **Something failed?** The most common issues:
 
@@ -219,4 +219,4 @@ Most Windows setup issues come down to PATH — the list of directories your ter
 
 ---
 
-**Next:** [What Is Claude Code?](01-what-is-claude-code.md)
+**Next:** [Navigating VS Code](01-vscode-orientation.md)

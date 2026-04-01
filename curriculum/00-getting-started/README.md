@@ -4,21 +4,22 @@
 
 ## What You'll Learn
 - Setting up your dev environment from scratch (Git, Node.js, VS Code)
+- Navigating VS Code — terminal, chat, panels, keyboard shortcuts
 - What Claude Code actually is (and isn't)
 - Installing and running it for the first time
-- Understanding what happens when you type your first message
 - The mental model shift: from chatbot to agent runtime
 
 ## Prerequisites
 - A Windows, Mac, or Linux computer
 - An Anthropic API key or Claude subscription
-- 15-30 minutes for setup
+- 30-60 minutes for setup and orientation
 
 ## Lessons
 0. [Setting Up Your Dev Environment](00-setup.md) — *start here if Git/Node.js aren't installed*
-1. [What Is Claude Code?](01-what-is-claude-code.md)
-2. [Installation & First Run](02-installation.md)
-3. [Your First Real Task](03-first-task.md)
+1. [Navigating VS Code](01-vscode-orientation.md) — *essential if VS Code is new to you*
+2. [What Is Claude Code?](02-what-is-claude-code.md)
+3. [Installation & First Run](03-installation.md)
+4. [Your First Real Task](04-first-task.md)
 
 ## Key Takeaway
 Claude Code isn't a chatbot in your terminal — it's a full agent runtime with tools, memory, and permissions. Once you internalize that, everything else clicks.
