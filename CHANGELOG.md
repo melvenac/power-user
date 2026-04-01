@@ -2,6 +2,18 @@
 
 All notable changes to the Power User curriculum.
 
+## [v1.0.1] - 2026-04-01
+
+### Fixed
+- **Antivirus false positive:** Changed Windows setup from `irm | iex` to two-step download-then-run to avoid Norton/McAfee AMSI blocks
+- **PowerShell explanation:** Added beginner-friendly explanation of what PowerShell is and how to open it
+- **Setup script:** Replaced `Invoke-Expression` with call operator in `Check-Command` to reduce AMSI triggers
+
+### Added
+- Antivirus troubleshooting section in Lesson 00 (Norton, McAfee, Windows Defender)
+- Antivirus row in README troubleshooting table
+- `.agents/` and `.claude/rules/` added to `.gitignore` (development framework, not student content)
+
 ## [v1.0.0] - 2026-04-01
 
 ### Added

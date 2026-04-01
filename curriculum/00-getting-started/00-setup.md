@@ -24,11 +24,22 @@ We have setup scripts for all platforms that check everything and install what's
 
 ### Windows
 
-Open PowerShell (`Win + X` → Terminal):
+First, open **PowerShell** — this is the command-line app built into every Windows PC. It's where you type commands instead of clicking buttons. Here's how to find it:
+
+1. Press `Win + X` (the Windows key + X at the same time)
+2. Click **Terminal** or **Windows PowerShell** from the menu that appears
+3. A dark window with a blinking cursor opens — that's PowerShell
+
+> **What is this?** PowerShell is like a text-based remote control for your computer. Instead of clicking through menus, you type instructions. It looks intimidating, but you'll only need it for this one setup step — after that, you'll use VS Code's built-in terminal for everything.
+
+Now paste these two lines, one at a time, pressing Enter after each:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex"
+irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
+
+> **Why two steps?** Running `irm | iex` (download-and-execute in one line) triggers false positives in Norton, McAfee, and other antivirus software. Downloading first, then running locally, avoids this. See [Antivirus False Positives](#troubleshooting-antivirus-false-positives) below if you hit this.
 
 ### Mac / Linux
 
@@ -223,6 +234,35 @@ claude --version     # Should show: Claude Code version
 | `'claude' is not recognized` | Run `npm bin -g` and add that directory to your system PATH |
 | PowerShell instead of bash | Follow "Set Default Terminal to Git Bash" above |
 | Permission errors with npm | Run PowerShell as Administrator for the npm install step |
+| Norton/McAfee blocked the script | See [Antivirus False Positives](#troubleshooting-antivirus-false-positives) below |
+
+---
+
+## Troubleshooting: Antivirus False Positives
+
+Norton, McAfee, Windows Defender, and other antivirus software sometimes block the setup script. This is a **false positive** — the script just installs developer tools, but antivirus sees "PowerShell downloading code from the internet" and flags it.
+
+**What the warnings look like:**
+- Norton: "IDP.AMSI.49 — Command line detection" or "AMSI:HttpRequest-inf [Susp]"
+- McAfee: "Suspicious PowerShell activity blocked"
+- Windows Defender: "Potentially unwanted app" or "Script blocked by AMSI"
+
+**How to fix it:**
+
+1. **Use the two-step install** (recommended — avoids the trigger entirely):
+   ```powershell
+   irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+   powershell -ExecutionPolicy Bypass -File setup.ps1
+   ```
+
+2. **If the downloaded script is still blocked**, temporarily allow it:
+   - **Norton:** Open Norton → History → find the blocked item → Restore / Allow
+   - **McAfee:** Open McAfee → Quarantined Items → Restore the script
+   - **Windows Defender:** Windows Security → Virus & threat protection → Protection history → Allow
+
+3. **If antivirus keeps interfering**, skip the script entirely and follow [Option B: Manual Install](#option-b-manual-install-step-by-step) instead. Every tool the script installs can be installed by hand.
+
+**Why this happens:** Antivirus tools use AMSI (Antimalware Scan Interface) to inspect PowerShell commands. Patterns like downloading + executing scripts, or using `Invoke-Expression`, trigger heuristic detections — even when the script is harmless. This affects many legitimate developer tools, not just ours.
 
 ---
 

@@ -1,6 +1,13 @@
 # Power User — Windows Setup Script
-# Run in PowerShell: irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex
-# Or locally: powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
+#
+# RECOMMENDED (avoids antivirus false positives):
+#   1. Download:  irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+#   2. Run:       powershell -ExecutionPolicy Bypass -File setup.ps1
+#
+# OR if already cloned: powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
+#
+# NOTE: Norton, McAfee, and other antivirus may flag "irm | iex" (download-and-execute)
+# as suspicious. Downloading first then running locally avoids this.
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
@@ -17,7 +24,11 @@ $results = @{}
 function Check-Command {
     param([string]$Name, [string]$Command)
     try {
-        $output = Invoke-Expression "$Command 2>&1" | Out-String
+        $parts = $Command -split ' ', 2
+        $exe = $parts[0]
+        $args = if ($parts.Length -gt 1) { $parts[1] } else { "" }
+        if (-not (Get-Command $exe -ErrorAction SilentlyContinue)) { return $null }
+        $output = if ($args) { & $exe $args 2>&1 | Out-String } else { & $exe 2>&1 | Out-String }
         return $output.Trim()
     } catch {
         return $null

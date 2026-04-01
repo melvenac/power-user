@@ -1,1 +1,9 @@
+# Business strategy (not public)
 PRD.md
+
+# AI development framework (project management, not student content)
+.agents/
+
+# Claude Code local config
+.claude/rules/
+.claude/settings.local.json

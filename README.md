@@ -14,10 +14,12 @@ A hands-on training program for becoming a Claude Code power user — from first
 
 The setup script installs all dependencies, clones this curriculum to `~/Projects/power-user`, and opens VS Code — ready to go.
 
-**Windows** (open PowerShell):
+**Windows** — open PowerShell (`Win + X` → click Terminal), then paste these two lines one at a time:
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 | iex"
+irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
+powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
+> Don't know what PowerShell is? It's the command-line app built into every Windows PC. See [Lesson 00](curriculum/00-getting-started/00-setup.md) for a full walkthrough.
 
 **Mac / Linux** (open Terminal):
 ```bash
@@ -108,7 +110,8 @@ Choose your track based on what you're building:
 | `'node' is not recognized` | Restart terminal. Reinstall Node.js |
 | `'claude' is not recognized` | Add npm global bin to PATH: `npm bin -g` |
 | Wrong terminal (PowerShell) | Set VS Code default to Git Bash (see above) |
-| Setup script fails | Follow [manual install steps](curriculum/00-getting-started/00-setup.md) |
+| Norton/McAfee blocked the script | Use the two-step install above, or [allow the script in your antivirus](curriculum/00-getting-started/00-setup.md#troubleshooting-antivirus-false-positives) |
+| Setup script fails | Follow [manual install steps](curriculum/00-getting-started/00-setup.md#option-b-manual-install-step-by-step) |
 
 ## Feedback
 
