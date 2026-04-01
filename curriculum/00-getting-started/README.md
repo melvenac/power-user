@@ -1,5 +1,7 @@
 # Module 00: Getting Started
 
+**See a term you don't recognize?** Check the [Glossary](../glossary.md) — it defines everything from "bash" to "MCP" in plain English.
+
 ## What You'll Learn
 - Setting up your dev environment from scratch (Git, Node.js, VS Code)
 - What Claude Code actually is (and isn't)

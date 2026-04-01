@@ -78,6 +78,8 @@ Begin with [Module 00: Getting Started](curriculum/00-getting-started/).
 | 07 | [Building Your Stack](curriculum/07-building-your-stack/) | Advanced |
 | 08 | [The Framework](curriculum/08-the-framework/) | Capstone |
 
+**New to development?** Check the [Glossary](curriculum/glossary.md) for definitions of terms like git, CLI, MCP, bash, and more.
+
 ### Module Overview
 
 **Beginner (Modules 00-01):** Install, first run, understand the tools, write better prompts, manage context.
