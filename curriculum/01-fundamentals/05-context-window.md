@@ -131,24 +131,83 @@ This way, even if you forget to add a focus prompt, the critical context is pres
 - **Right after starting** — nothing to compact yet
 - **Short sessions** — not worth it, just finish and start fresh next time
 
+## Example: A Real /compact in Action
+
+Here's what actually happens during a working session. This is from a real session building this curriculum:
+
+### The Situation
+We'd been working for a while — exploring files, editing lessons, discussing design decisions, configuring permissions. Context was getting heavy. We wanted to keep going but shift to a new subtask.
+
+### The Command
+```
+/compact keep: power-user project structure, curriculum decisions, 
+Aaron's permission config. Drop: file exploration output, debugging.
+```
+
+### What Happened
+1. Claude Code read the entire conversation (dozens of exchanges, file reads, tool outputs)
+2. Compressed it into a structured summary — key decisions, files modified, current state
+3. Replaced the full history with that summary
+4. Context dropped from ~75% to ~20%
+
+### What Survived
+- The project structure (9 modules, 42 lessons)
+- Design decisions ("keep /bootstrap lightweight, graduate to full framework in Module 08")
+- File paths we'd been editing
+- The permission configuration we'd just set up
+
+### What Was Lost
+- The exact output of every file read
+- Back-and-forth debugging of setup scripts
+- Intermediate reasoning ("should we put this in Module 02 or 03?")
+- Verbose tool call results
+
+### The Lesson
+The focus prompt is doing the heavy lifting. Without it, Claude Code guesses what's important. With it, you're in control. The things we told it to keep survived cleanly. The things we didn't mention were compressed or dropped.
+
 ## Exercise: Context Awareness
 
-### Part 1: See the cost
-1. Start a session and ask Claude Code to explore a medium-sized project
-2. After several exchanges, ask: "How much context have we used?"
-3. Note the percentage
+This is a hands-on exercise. Do it in Claude Code right now — it takes about 10 minutes and teaches you something you can't learn by reading.
 
-### Part 2: Compact with focus
-4. Run `/compact keep the key findings about project structure`
-5. Ask: "How much context are we using now?"
-6. Compare — you should see a significant drop
+### Part 1: Fill up some context
+1. Open Claude Code in any project folder (or create a temp one: `mkdir ~/compact-test && cd ~/compact-test`)
+2. Have a real conversation — ask Claude Code to:
+   - Explore the project structure
+   - Read a few files
+   - Explain what it found
+   - Suggest an improvement
+3. Do 5-6 back-and-forth exchanges. Don't rush — have a real conversation.
+4. Ask: **"How much context have we used?"**
+5. Note the percentage. (If you have a status line configured, you can see it there too.)
+
+### Part 2: Compact with a focus prompt
+6. Think about what you care about from the conversation. Pick one or two things.
+7. Run `/compact` with a focus prompt:
+   ```
+   /compact keep the key findings about project structure
+   ```
+8. Ask: **"How much context are we using now?"**
+9. Compare — you should see a significant drop (typically 60-80% savings).
 
 ### Part 3: Test what survived
-7. Ask: "What did we learn about the project structure?"
-8. Claude Code should know — that's what you told it to keep
-9. Ask about something you DIDN'T tell it to keep — it might be fuzzy or gone
+10. Ask: **"What did we learn about the project structure?"**
+    - Claude Code should know — that's what you told it to keep.
+11. Now ask about something you DIDN'T tell it to keep — maybe the exact wording of a suggestion, or which specific files it read.
+    - It might be fuzzy, summarized, or gone entirely.
+12. That gap between "kept" and "lost" — that's the trade-off you're managing.
 
-This exercise teaches you what compaction preserves and what it drops. That awareness is how you decide when and how to compact.
+### Part 4: Compare with no focus
+13. Start a **new session** (type `exit`, then `claude`)
+14. Have another short conversation (3-4 exchanges)
+15. This time, run `/compact` with **no focus prompt** — just `/compact`
+16. Ask what it remembers
+17. Compare — without a focus prompt, Claude Code decides what's important. Sometimes it guesses right. Sometimes it drops the thing you needed.
+
+### What You Learned
+- Context fills up faster than you think (Part 1)
+- `/compact` with a focus prompt gives you control over what survives (Part 2)
+- The focus prompt is the difference between "I chose what to keep" and "I hope it kept the right stuff" (Part 3 vs Part 4)
+- This is a skill you'll use in every long session going forward
 
 ## Key Takeaway
 

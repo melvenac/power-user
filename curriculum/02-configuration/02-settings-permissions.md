@@ -172,29 +172,104 @@ Your global allows `Bash(git *)`, but this project specifically blocks the dange
 - **Project:** only when a repo has different risk than your default
 - **Most repos:** global is enough — don't over-configure
 
-## The settings.json Deep Dive
+## Real-World Example: Aaron's Actual Config
 
-Beyond permissions, settings.json controls:
+Here's a real `~/.claude/settings.json` from daily use. This isn't a tutorial example — it's a working configuration that evolved over months. Let's walk through every section.
+
+### The Full File
 
 ```json
 {
-  "permissions": { ... },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
+  "permissions": {
+    "allow": [
+      "Read", "Glob", "Grep", "WebSearch",
+      "Edit", "Write", "Agent",
+      "Bash(git *)", "Bash(gh *)",
+      "Bash(npm *)", "Bash(npx *)",
+      "Bash(bun *)", "Bash(bunx *)",
+      "Bash(node *)",
+      "Bash(mkdir *)", "Bash(ls *)",
+      "Bash(cat *)", "Bash(head *)",
+      "Bash(tail *)", "Bash(wc *)",
+      "Bash(echo *)", "Bash(cd *)",
+      "mcp__open-brain-knowledge__*",
+      "mcp__plugin_context-mode_context-mode__*",
+      "mcp__smart-connections__*",
+      "mcp__ide__*"
+    ],
+    "deny": ["WebFetch"]
+  },
   "hooks": {
-    "PreToolUse": [...],
-    "PostToolUse": [...],
-    "SessionStart": [...],
-    "SessionEnd": [...]
+    "PreToolUse": [
+      {
+        "matcher": "Bash|WebFetch|Read|Grep|Agent|Task|...",
+        "hooks": [{ "type": "command", "command": "node .../pretooluse.mjs" }]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "node .../log-git-ops.mjs", "if": "Bash(git *)" }]
+      }
+    ],
+    "SessionStart": [
+      { "hooks": [{ "type": "command", "command": "node .../sessionstart.mjs" }] },
+      { "hooks": [{ "type": "command", "command": "node .../session-bootstrap.mjs" }] }
+    ],
+    "SessionEnd": [
+      { "hooks": [{ "type": "command", "command": "node .../session-end.mjs" }] },
+      { "hooks": [{ "type": "command", "command": "node .../skill-scan.mjs" }] }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "powershell .../play-random.ps1" }] }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "document-skills@anthropic-agent-skills": true,
+    "feature-dev@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "context-mode@context-mode": true,
+    "cli-anything@cli-anything": true
   }
 }
 ```
 
-- **env** — environment variables that enable experimental features
-- **hooks** — scripts that run in response to events (covered in Module 06)
+*(Paths shortened for readability — the real ones point to `~/.claude/...`)*
 
-For now, just know these exist. We'll configure them in later modules.
+### Section by Section
+
+**`env`** — Environment variables that enable experimental features. `AGENT_TEAMS` lets Claude Code spin up multiple coordinated instances. You won't need this on day one, but it's here to show that settings.json controls more than just permissions.
+
+**`permissions`** — This is the Tier 1-2-3 model from the exercise above, in practice:
+- **Tier 1 (read-only):** Read, Glob, Grep, WebSearch — no risk
+- **Tier 2 (productive):** Edit, Write, Agent, plus Bash patterns for daily tools (git, npm, bun, node, gh) and all trusted MCP servers
+- **Tier 3 (catch-all):** General `Bash` with no pattern still prompts — that's the safety net
+- **Denied:** `WebFetch` — blocked because a plugin (`context-mode`) handles web fetching better
+
+**`hooks`** — Scripts that fire on events. Don't worry about writing these yet (that's Module 06). But notice the pattern:
+- **PreToolUse** hooks intercept tool calls *before* they run — useful for logging, redirecting, or adding context
+- **SessionStart/SessionEnd** hooks run bookkeeping — loading memory at start, saving it at end
+- **Stop** hook plays a sound when Claude Code finishes — a small quality-of-life touch
+
+**`statusLine`** — A custom command that runs continuously and displays in the terminal. This one shows context window usage percentage — so you always know when you're approaching the 50% rule.
+
+**`enabledPlugins`** — Plugins from the marketplace that add skills and capabilities. These layer on top of Claude Code's built-in tools.
+
+### What to Take Away
+
+You don't need to build this on day one. This config evolved over months of daily use:
+1. Started with just `Read, Glob, Grep` in allow
+2. Added `Edit, Write` after a week of trust
+3. Added Bash patterns as permission prompts got annoying for safe commands
+4. Added MCP wildcards when those servers were installed
+5. Hooks came last, as automation needs became clear
+
+**Your config will look different** — and that's the point. There's no "correct" settings.json. There's only the one that matches your workflow and trust level right now.
 
 ## Exercise: Set Your Permissions
 

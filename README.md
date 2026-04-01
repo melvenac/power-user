@@ -82,11 +82,19 @@ Begin with [Module 00: Getting Started](curriculum/00-getting-started/).
 
 ### Module Overview
 
-**Beginner (Modules 00-01):** Install, first run, understand the tools, write better prompts, manage context.
+**Beginner (Modules 00-01):**
+- **00 Getting Started:** Dev environment setup, VS Code orientation, understanding AI tools (Claude vs ChatGPT vs Cursor), what Claude Code is, installation & first bootstrap, your first real task
+- **01 Fundamentals:** Terminal vs chat, core tools, commands, reading output, two-gear prompting, context window & /compact
 
-**Intermediate (Modules 02-04):** Configure CLAUDE.md and permissions, connect MCP servers, understand memory layers.
+**Intermediate (Modules 02-04):**
+- **02 Configuration:** CLAUDE.md layers, settings & permissions (with real-world config walkthrough), the .agents/ framework, /bootstrap
+- **03 MCP & Tools:** What MCP is, your first MCP server, practical servers, the tool ecosystem
+- **04 Memory & Context:** How memory works, memory layers, context management, persistent knowledge
 
-**Advanced (Modules 05-07):** Multi-agent coordination, custom skills and hooks, choose and configure your tech stack.
+**Advanced (Modules 05-07):**
+- **05 Multi-Agent:** Why multi-agent, the Agent tool, task decomposition, agent teams
+- **06 Skills & Hooks:** Custom commands, hooks, skills, the automation layer
+- **07 Building Your Stack:** Choosing a stack, Aaron's stack (Next.js + Convex), other paths, your journey
 
 **Capstone (Module 08):** Four guided sessions building a real project with the Self-Improving Agent framework — /start, /end, /sync, /test, and skills that emerge from your work.
 
@@ -121,4 +129,4 @@ Choose your track based on what you're building:
 
 ## Status
 
-Private development — building out curriculum and exercises.
+Public v1.0.0 — full curriculum complete. Iterating on exercises and real-user feedback.
