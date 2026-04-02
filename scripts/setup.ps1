@@ -475,20 +475,52 @@ if ($allGood) {
         Write-Host "  Opening VS Code in $repoDir..." -ForegroundColor Cyan
         & $codeCmd $repoDir
         Write-Host ""
-        Write-Host "  VS Code should be opening now. When it does:" -ForegroundColor Cyan
-        Write-Host "    1. Set default terminal to Git Bash" -ForegroundColor White
-        Write-Host "       (Ctrl+Shift+P -> Terminal: Select Default Profile -> Git Bash)" -ForegroundColor White
-        Write-Host "    2. Open a terminal (Ctrl+``)" -ForegroundColor White
-        Write-Host "    3. Type: claude" -ForegroundColor White
-        Write-Host "    4. Follow the authentication prompts" -ForegroundColor White
-        Write-Host "    5. Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
+        Write-Host "  VS Code should be opening now. Follow these steps:" -ForegroundColor Cyan
+        Write-Host ""
+        Write-Host "  STEP 1: Set your terminal to Git Bash" -ForegroundColor White
+        Write-Host "    - Press Ctrl+Shift+P (opens a search bar at the top)" -ForegroundColor White
+        Write-Host "    - Type: Terminal: Select Default Profile" -ForegroundColor White
+        Write-Host "    - Click 'Git Bash' from the list" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 2: Open a terminal" -ForegroundColor White
+        Write-Host "    - Press Ctrl+`` (backtick - the key above Tab)" -ForegroundColor White
+        Write-Host "    - A panel slides up from the bottom" -ForegroundColor White
+        Write-Host "    - Confirm it says 'bash' in the top-right (not 'powershell')" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 3: Launch Claude Code" -ForegroundColor White
+        Write-Host "    - Type: claude  (then press Enter)" -ForegroundColor White
+        Write-Host "    - Pick a theme (Dark recommended) with arrow keys, press Enter" -ForegroundColor White
+        Write-Host "    - Accept the terms of service" -ForegroundColor White
+        Write-Host "    - Your browser opens - sign in or create an Anthropic account" -ForegroundColor White
+        Write-Host "    - Subscribe to Claude Pro ($20/mo) or Max if you haven't already" -ForegroundColor White
+        Write-Host "    - Go back to VS Code - Claude Code connects automatically" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 4: Start learning" -ForegroundColor White
+        Write-Host "    - Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
     } else {
         Write-Host "Next steps:" -ForegroundColor Cyan
-        Write-Host "  1. Open VS Code" -ForegroundColor White
-        Write-Host "  2. File -> Open Folder -> $repoDir" -ForegroundColor White
-        Write-Host "  3. Set default terminal to Git Bash (Ctrl+Shift+P -> Terminal: Select Default Profile)" -ForegroundColor White
-        Write-Host "  4. Open a terminal and type: claude" -ForegroundColor White
-        Write-Host "  5. Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 1: Open VS Code" -ForegroundColor White
+        Write-Host "    - Find it in your Start menu (search 'Visual Studio Code')" -ForegroundColor White
+        Write-Host "    - Go to File -> Open Folder -> $repoDir" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 2: Set your terminal to Git Bash" -ForegroundColor White
+        Write-Host "    - Press Ctrl+Shift+P (opens a search bar at the top)" -ForegroundColor White
+        Write-Host "    - Type: Terminal: Select Default Profile" -ForegroundColor White
+        Write-Host "    - Click 'Git Bash' from the list" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 3: Open a terminal" -ForegroundColor White
+        Write-Host "    - Press Ctrl+`` (backtick - the key above Tab)" -ForegroundColor White
+        Write-Host "    - Confirm it says 'bash' (not 'powershell')" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 4: Launch Claude Code" -ForegroundColor White
+        Write-Host "    - Type: claude  (then press Enter)" -ForegroundColor White
+        Write-Host "    - Pick a theme (Dark recommended), press Enter" -ForegroundColor White
+        Write-Host "    - Accept the terms, then sign in via browser" -ForegroundColor White
+        Write-Host "    - Subscribe to Claude Pro ($20/mo) or Max if needed" -ForegroundColor White
+        Write-Host ""
+        Write-Host "  STEP 5: Start learning" -ForegroundColor White
+        Write-Host "    - Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
     }
     Write-Host ""
 } else {

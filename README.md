@@ -14,7 +14,7 @@ A hands-on training program for becoming a Claude Code power user — from first
 
 The setup script installs all dependencies, clones this curriculum to `~/Projects/power-user`, and opens VS Code — ready to go.
 
-**Windows** — open PowerShell (`Win + X` → click Terminal), then paste each command:
+**Windows** — open PowerShell (`Win + X` -> click Terminal), then paste each command:
 
 Download the script:
 ```powershell
@@ -32,11 +32,29 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
 ```
 
-When VS Code opens:
-1. Set default terminal to Git Bash *(Windows only: Ctrl+Shift+P → "Terminal: Select Default Profile" → Git Bash)*
-2. Open a terminal (`Ctrl + ~`)
-3. Type `claude` and follow the authentication prompts
-4. Start reading: `curriculum/00-getting-started/00-setup.md`
+When VS Code opens, follow these steps carefully:
+
+1. **Set your terminal to Git Bash** *(Windows only)*
+   - Press `Ctrl+Shift+P` (opens a search bar at the top of VS Code)
+   - Type `Terminal: Select Default Profile` and click it
+   - Select **Git Bash** from the list
+
+2. **Open a terminal**
+   - Press `` Ctrl + ` `` (backtick -- the key above Tab, left of the 1 key)
+   - A panel slides up from the bottom -- this is your terminal
+   - It should say "bash" in the top-right corner. If it says "powershell", redo step 1
+
+3. **Launch Claude Code**
+   - Type `claude` and press Enter
+   - **Theme:** Use arrow keys to pick Dark (or your preference), press Enter
+   - **Terms:** Press Enter to accept the terms of service
+   - **Login:** Your browser opens automatically -- sign in or create an Anthropic account
+   - **Subscription required:** You need Claude Pro ($20/month) or Claude Max. Claude Pro is fine for learning.
+   - Once subscribed, go back to VS Code -- Claude Code connects automatically
+
+4. **Start learning**
+   - Type `/exit` to close Claude Code for now
+   - Open the file `curriculum/00-getting-started/00-setup.md` in VS Code and start reading
 
 **Already have Git, Node.js, and VS Code?** Just clone and go:
 ```bash
@@ -106,7 +124,7 @@ Choose your track based on what you're building:
 | Claude Code | Latest | `npm install -g @anthropic-ai/claude-code` |
 | Claude account | — | [claude.ai](https://claude.ai) (Pro, Max, or API key) |
 
-**Windows users:** Set VS Code's default terminal to Git Bash (Ctrl+Shift+P → "Terminal: Select Default Profile" → Git Bash). Claude Code uses bash, not PowerShell.
+**Windows users:** Set VS Code's default terminal to Git Bash (Ctrl+Shift+P -> "Terminal: Select Default Profile" -> Git Bash). Claude Code uses bash, not PowerShell.
 
 ## Troubleshooting
 
