@@ -60,9 +60,71 @@ curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/
 
 ### After the script runs:
 
-1. **Restart your terminal** (loads new PATH entries)
+1. **Restart your terminal** (close the PowerShell window and open a new one)
 2. **Run the script again** — everything should show `[OK]`
 3. If anything failed, follow the manual steps below
+
+### Step 1: Set VS Code's Terminal to Git Bash
+
+The setup script installed VS Code and Git Bash, but VS Code defaults to PowerShell. Claude Code needs bash, so we need to change it. This is a one-time setting.
+
+1. **Open VS Code** — find it in your Start menu or search `Visual Studio Code`
+2. A blue editor window opens. If this is your first time, it may show a Welcome tab — you can close it
+3. **Open the Command Palette:** press `Ctrl + Shift + P` (hold Control and Shift, then tap P)
+   - A search bar drops down from the top of the window
+4. **Type:** `Terminal: Select Default Profile` and click the matching result
+5. **Select: Git Bash** from the list
+   - If you don't see Git Bash, the Git install may not have finished — restart your PC and try again
+
+> **What just happened?** You told VS Code to use Git Bash instead of PowerShell for its built-in terminal. Claude Code and all the curriculum commands expect bash. You only need to do this once.
+
+### Step 2: Open a Terminal Inside VS Code
+
+1. **Press Ctrl + ` (backtick)** — that's the key above Tab, left of the 1 key
+   - A panel slides up from the bottom of VS Code — this is the **integrated terminal**
+   - It should say "bash" in the top-right of that panel. If it says "powershell", go back to Step 1
+2. You now have a bash terminal running inside your editor. This is where you'll run Claude Code.
+
+> **Why inside VS Code?** Claude Code reads and edits your project files. Running it in VS Code's terminal means it can see the same files you see in the editor — everything stays in one window.
+
+### Step 3: Launch Claude Code for the First Time
+
+1. In the terminal you just opened, **type `claude` and press Enter**
+2. Claude Code starts up and walks you through first-time setup:
+   - **Theme selection:** It asks you to pick a color theme (light or dark). Use your arrow keys to highlight **Dark** (or whichever you prefer), then press **Enter**
+   - **Terms of service:** Read through and press **Enter** to accept
+   - **Login:** It opens your web browser to Anthropic's login page
+
+### Step 4: Create Your Anthropic Account and Subscribe
+
+Claude Code requires a paid subscription. Here's what to expect:
+
+1. **Your browser opens** to the Anthropic login/signup page
+2. **Create an account** if you don't have one — enter your email and create a password
+3. **Verify your email** (check your inbox, click the link)
+4. **Choose a subscription plan:**
+   - You need either **Claude Pro** ($20/month) or **Claude Max** ($100/month or $200/month)
+   - Claude Pro works fine for learning — start there
+   - You can upgrade later if you want more usage
+5. **Enter payment info** and confirm
+6. **Your browser shows a success page** — you can close it and go back to VS Code
+7. Back in the VS Code terminal, Claude Code should now be connected and ready
+
+> **Stuck on login?** If the browser didn't open automatically, Claude Code shows a URL in the terminal — copy and paste it into your browser manually. If you already have an Anthropic account with an active subscription, just log in and it connects automatically.
+
+### Step 5: Verify It Works
+
+You should now see Claude Code's prompt in your terminal — it looks like a chat interface where you can type messages.
+
+Type a quick test:
+
+```
+hello, are you working?
+```
+
+If Claude responds, you're all set. Type `/exit` to close Claude Code for now.
+
+**Having trouble?** Check the [troubleshooting section](#troubleshooting-the-path-problem) at the bottom of this page. The most common issue is PATH problems — the fix is there.
 
 ---
 
@@ -190,21 +252,30 @@ You should see your username and "Logged in to github.com."
 
 ## Configure VS Code for Claude Code
 
-This step is critical and often missed:
+> **Already followed Steps 1-4 above?** You're done — skip to [Verify Everything](#verify-everything). This section is for manual installers.
 
-### Set Default Terminal to Git Bash
+### Set Default Terminal to Git Bash (Windows Only)
 
 VS Code defaults to PowerShell on Windows, but Claude Code uses bash. Fix this:
 
 1. Open VS Code
-2. Press `Ctrl + Shift + P` (opens command palette)
-3. Type: `Terminal: Select Default Profile`
+2. Press `Ctrl + Shift + P` (opens the Command Palette — a search bar at the top)
+3. Type: `Terminal: Select Default Profile` and click the matching result
 4. Select: **Git Bash**
 
 Now every new terminal in VS Code will be bash. This means:
 - Claude Code works correctly
 - All curriculum commands work as written
 - You learn bash (works on Mac/Linux too)
+
+### First Launch of Claude Code
+
+1. Open a terminal in VS Code: press `Ctrl + ~` (backtick — the key above Tab)
+2. Type `claude` and press Enter
+3. **Theme:** Use arrow keys to pick Dark (or your preference), press Enter
+4. **Terms:** Press Enter to accept
+5. **Login:** Your browser opens — sign in or create an Anthropic account, subscribe to Claude Pro ($20/month) or Max, then return to VS Code
+6. Claude Code is now connected and ready
 
 ### Install the Claude Code Extension (Optional)
 
@@ -240,6 +311,8 @@ claude --version     # Should show: Claude Code version
 | PowerShell instead of bash | Follow "Set Default Terminal to Git Bash" above |
 | Permission errors with npm | Run PowerShell as Administrator for the npm install step |
 | Norton/McAfee blocked the script | See [Antivirus False Positives](#troubleshooting-antivirus-false-positives) below |
+| Claude Code login didn't open browser | Copy the URL shown in the terminal and paste it into your browser |
+| Claude Code says "subscription required" | You need Claude Pro ($20/mo) or Max — sign up at [claude.ai](https://claude.ai) |
 
 ---
 
