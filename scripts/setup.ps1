@@ -18,6 +18,65 @@ Write-Host "This script will check and install everything you need"
 Write-Host "to start the Claude Code Power User curriculum."
 Write-Host ""
 
+# ============================================
+# System Requirements Check
+# ============================================
+Write-Host "Checking system requirements..." -ForegroundColor Cyan
+Write-Host ""
+
+# --- RAM Check ---
+$totalRAM = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
+Write-Host "  RAM: ${totalRAM} GB" -ForegroundColor White
+
+if ($totalRAM -lt 8) {
+    Write-Host ""
+    Write-Host "  WARNING: ${totalRAM} GB RAM is below the minimum (8 GB)." -ForegroundColor Red
+    Write-Host "  Claude Code + VS Code together need ~6-7 GB, leaving almost" -ForegroundColor Red
+    Write-Host "  nothing for Windows. This setup will not work well." -ForegroundColor Red
+    Write-Host ""
+    $continue = Read-Host "  Continue anyway? (y/N)"
+    if ($continue -ne "y") {
+        Write-Host ""
+        Write-Host "  Setup cancelled. Consider upgrading RAM to at least 8 GB (16 GB recommended)." -ForegroundColor Yellow
+        exit 1
+    }
+} elseif ($totalRAM -lt 16) {
+    Write-Host "  NOTE: 8 GB is workable but tight. Close other apps when using Claude Code." -ForegroundColor Yellow
+} else {
+    Write-Host "  RAM: OK" -ForegroundColor Green
+}
+
+# --- Disk Space Check ---
+$systemDrive = $env:SystemDrive
+if (-not $systemDrive) { $systemDrive = "C:" }
+$freeGB = [math]::Round((Get-PSDrive ($systemDrive -replace ':','')).Free / 1GB)
+Write-Host "  Disk ($systemDrive): ${freeGB} GB free" -ForegroundColor White
+
+if ($freeGB -lt 20) {
+    Write-Host ""
+    Write-Host "  NOT ENOUGH DISK SPACE." -ForegroundColor Red
+    Write-Host "  This setup installs ~16-17 GB (Claude Code alone is ~15 GB)." -ForegroundColor Red
+    Write-Host "  Windows also needs space for swap files and updates." -ForegroundColor Red
+    Write-Host "  You need at least 20 GB free, 30+ GB recommended." -ForegroundColor Red
+    Write-Host ""
+    Write-Host "  Free up space and try again." -ForegroundColor Yellow
+    exit 1
+} elseif ($freeGB -lt 30) {
+    Write-Host "  WARNING: Space is tight. Installation may succeed but your system" -ForegroundColor Yellow
+    Write-Host "  will be cramped. 30+ GB free is recommended." -ForegroundColor Yellow
+    Write-Host ""
+    $continue = Read-Host "  Continue anyway? (y/N)"
+    if ($continue -ne "y") {
+        Write-Host ""
+        Write-Host "  Setup cancelled. Free up space and try again." -ForegroundColor Yellow
+        exit 1
+    }
+} else {
+    Write-Host "  Disk: OK" -ForegroundColor Green
+}
+
+Write-Host ""
+
 # Track results for final report
 $results = @{}
 
