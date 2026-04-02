@@ -1,4 +1,4 @@
-# Power User — Windows Setup Script
+# Power User - Windows Setup Script
 #
 # RECOMMENDED (avoids antivirus false positives):
 #   1. Download:  irm https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.ps1 -OutFile setup.ps1
@@ -11,7 +11,7 @@
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Power User — Dev Environment Setup" -ForegroundColor Cyan
+Write-Host "  Power User - Dev Environment Setup" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "This script will check and install everything you need"
@@ -50,11 +50,11 @@ function Install-WithWinget {
             Write-Host "  Installed $Name" -ForegroundColor Green
             return $true
         } else {
-            Write-Host "  $Name installed but not in PATH — you may need to restart your terminal" -ForegroundColor Yellow
+            Write-Host "  $Name installed but not in PATH - you may need to restart your terminal" -ForegroundColor Yellow
             return $true
         }
     } catch {
-        Write-Host "  Failed to install $Name — install manually" -ForegroundColor Red
+        Write-Host "  Failed to install $Name - install manually" -ForegroundColor Red
         return $false
     }
 }
@@ -66,7 +66,7 @@ Write-Host "Checking winget..." -ForegroundColor Cyan
 $wingetAvailable = $null -ne (Get-Command winget -ErrorAction SilentlyContinue)
 if (-not $wingetAvailable) {
     Write-Host "  winget not found. You're on an older Windows version." -ForegroundColor Yellow
-    Write-Host "  You'll need to install dependencies manually — the guide below will help." -ForegroundColor Yellow
+    Write-Host "  You'll need to install dependencies manually - the guide below will help." -ForegroundColor Yellow
     Write-Host ""
 }
 
@@ -133,7 +133,7 @@ if ($npmVersion) {
     Write-Host "  Found: npm $npmVersion" -ForegroundColor Green
     $results["npm"] = "pass"
 } else {
-    Write-Host "  Not in PATH — Node.js may need a terminal restart" -ForegroundColor Yellow
+    Write-Host "  Not in PATH - Node.js may need a terminal restart" -ForegroundColor Yellow
     $results["npm"] = "RESTART"
 }
 Write-Host ""
@@ -202,15 +202,15 @@ if ($claudeVersion) {
                 Write-Host "  Installed: Claude Code $claudeCheck" -ForegroundColor Green
                 $results["Claude Code"] = "installed"
             } else {
-                Write-Host "  Installed but not in PATH — restart your terminal" -ForegroundColor Yellow
+                Write-Host "  Installed but not in PATH - restart your terminal" -ForegroundColor Yellow
                 $results["Claude Code"] = "RESTART"
             }
         } catch {
-            Write-Host "  Failed — try manually: npm install -g @anthropic-ai/claude-code" -ForegroundColor Red
+            Write-Host "  Failed - try manually: npm install -g @anthropic-ai/claude-code" -ForegroundColor Red
             $results["Claude Code"] = "FAIL"
         }
     } else {
-        Write-Host "  Skipped — need npm first (install Node.js, restart terminal, re-run this script)" -ForegroundColor Yellow
+        Write-Host "  Skipped - need npm first (install Node.js, restart terminal, re-run this script)" -ForegroundColor Yellow
         $results["Claude Code"] = "BLOCKED"
     }
 }
@@ -225,7 +225,7 @@ if ($bunVersion) {
     Write-Host "  Found: Bun $bunVersion" -ForegroundColor Green
     $results["Bun"] = "pass"
 } else {
-    Write-Host "  Not found (optional — needed for Aaron's web stack)" -ForegroundColor Yellow
+    Write-Host "  Not found (optional - needed for Aaron's web stack)" -ForegroundColor Yellow
     Write-Host "  Install later with: powershell -c 'irm bun.sh/install.ps1 | iex'" -ForegroundColor Yellow
     $results["Bun"] = "optional"
 }
@@ -254,11 +254,11 @@ if ($ghVersion) {
         Write-Host "  Then run this command to log in:" -ForegroundColor Yellow
         Write-Host "    gh auth login" -ForegroundColor White
         Write-Host ""
-        Write-Host "  Choose: GitHub.com → HTTPS → Login with a web browser" -ForegroundColor Yellow
+        Write-Host "  Choose: GitHub.com -> HTTPS -> Login with a web browser" -ForegroundColor Yellow
         $results["GitHub CLI"] = "RESTART"
     }
 } else {
-    Write-Host "  Not found — installing..." -ForegroundColor Yellow
+    Write-Host "  Not found - installing..." -ForegroundColor Yellow
     if ($wingetAvailable) {
         $installed = Install-WithWinget "GitHub CLI" "GitHub.cli" "gh --version"
         if ($installed) {
@@ -295,14 +295,14 @@ if (Test-Path $gitBashPath) {
             Write-Host "  VS Code terminal profile already configured" -ForegroundColor Green
         } else {
             Write-Host "  TIP: Set VS Code default terminal to Git Bash:" -ForegroundColor Yellow
-            Write-Host '  Open VS Code → Ctrl+Shift+P → "Terminal: Select Default Profile" → Git Bash' -ForegroundColor Yellow
+            Write-Host '  Open VS Code -> Ctrl+Shift+P -> "Terminal: Select Default Profile" -> Git Bash' -ForegroundColor Yellow
         }
     } else {
         Write-Host "  TIP: After opening VS Code, set default terminal to Git Bash:" -ForegroundColor Yellow
-        Write-Host '  Ctrl+Shift+P → "Terminal: Select Default Profile" → Git Bash' -ForegroundColor Yellow
+        Write-Host '  Ctrl+Shift+P -> "Terminal: Select Default Profile" -> Git Bash' -ForegroundColor Yellow
     }
 } else {
-    Write-Host "  Git Bash not found at expected path — set terminal manually after Git installs" -ForegroundColor Yellow
+    Write-Host "  Git Bash not found at expected path - set terminal manually after Git installs" -ForegroundColor Yellow
 }
 Write-Host ""
 
@@ -320,9 +320,9 @@ foreach ($tool in @("Git", "Node.js", "npm", "VS Code", "Claude Code", "Bun", "G
     switch ($status) {
         "pass"      { Write-Host "  [OK]      $tool" -ForegroundColor Green }
         "installed" { Write-Host "  [NEW]     $tool (just installed)" -ForegroundColor Green }
-        "optional"  { Write-Host "  [SKIP]    $tool (optional — install later if needed)" -ForegroundColor Yellow }
+        "optional"  { Write-Host "  [SKIP]    $tool (optional - install later if needed)" -ForegroundColor Yellow }
         "RESTART"   { Write-Host "  [RESTART] $tool (restart terminal, then verify)" -ForegroundColor Yellow; $allGood = $false }
-        "MANUAL"    { Write-Host "  [MANUAL]  $tool (install manually — see URLs above)" -ForegroundColor Red; $allGood = $false }
+        "MANUAL"    { Write-Host "  [MANUAL]  $tool (install manually - see URLs above)" -ForegroundColor Red; $allGood = $false }
         "BLOCKED"   { Write-Host "  [BLOCKED] $tool (install dependencies first, re-run script)" -ForegroundColor Red; $allGood = $false }
         "FAIL"      { Write-Host "  [FAIL]    $tool (install manually)" -ForegroundColor Red; $allGood = $false }
         default     { Write-Host "  [?]       $tool" -ForegroundColor Yellow }
@@ -355,15 +355,15 @@ if (Test-Path "$repoDir\curriculum") {
                 Write-Host "  Curriculum ready at $repoDir" -ForegroundColor Green
                 $results["Curriculum"] = "installed"
             } else {
-                Write-Host "  Clone failed — try manually: git clone https://github.com/melvenac/power-user.git $repoDir" -ForegroundColor Red
+                Write-Host "  Clone failed - try manually: git clone https://github.com/melvenac/power-user.git $repoDir" -ForegroundColor Red
                 $results["Curriculum"] = "FAIL"
             }
         } catch {
-            Write-Host "  Clone failed — try manually: git clone https://github.com/melvenac/power-user.git $repoDir" -ForegroundColor Red
+            Write-Host "  Clone failed - try manually: git clone https://github.com/melvenac/power-user.git $repoDir" -ForegroundColor Red
             $results["Curriculum"] = "FAIL"
         }
     } else {
-        Write-Host "  Skipped — need Git first. Re-run after installing Git." -ForegroundColor Yellow
+        Write-Host "  Skipped - need Git first. Re-run after installing Git." -ForegroundColor Yellow
         $results["Curriculum"] = "BLOCKED"
     }
 }
@@ -383,9 +383,9 @@ foreach ($tool in @("Git", "Node.js", "npm", "VS Code", "Claude Code", "Bun", "G
     switch ($status) {
         "pass"      { Write-Host "  [OK]      $tool" -ForegroundColor Green }
         "installed" { Write-Host "  [NEW]     $tool (just installed)" -ForegroundColor Green }
-        "optional"  { Write-Host "  [SKIP]    $tool (optional — install later if needed)" -ForegroundColor Yellow }
+        "optional"  { Write-Host "  [SKIP]    $tool (optional - install later if needed)" -ForegroundColor Yellow }
         "RESTART"   { Write-Host "  [RESTART] $tool (restart terminal, then verify)" -ForegroundColor Yellow; $allGood = $false }
-        "MANUAL"    { Write-Host "  [MANUAL]  $tool (install manually — see URLs above)" -ForegroundColor Red; $allGood = $false }
+        "MANUAL"    { Write-Host "  [MANUAL]  $tool (install manually - see URLs above)" -ForegroundColor Red; $allGood = $false }
         "BLOCKED"   { Write-Host "  [BLOCKED] $tool (install dependencies first, re-run script)" -ForegroundColor Red; $allGood = $false }
         "FAIL"      { Write-Host "  [FAIL]    $tool (install manually)" -ForegroundColor Red; $allGood = $false }
         default     { Write-Host "  [?]       $tool" -ForegroundColor Yellow }
@@ -418,7 +418,7 @@ if ($allGood) {
         Write-Host ""
         Write-Host "  VS Code should be opening now. When it does:" -ForegroundColor Cyan
         Write-Host "    1. Set default terminal to Git Bash" -ForegroundColor White
-        Write-Host "       (Ctrl+Shift+P → Terminal: Select Default Profile → Git Bash)" -ForegroundColor White
+        Write-Host "       (Ctrl+Shift+P -> Terminal: Select Default Profile -> Git Bash)" -ForegroundColor White
         Write-Host "    2. Open a terminal (Ctrl+``)" -ForegroundColor White
         Write-Host "    3. Type: claude" -ForegroundColor White
         Write-Host "    4. Follow the authentication prompts" -ForegroundColor White
@@ -426,14 +426,14 @@ if ($allGood) {
     } else {
         Write-Host "Next steps:" -ForegroundColor Cyan
         Write-Host "  1. Open VS Code" -ForegroundColor White
-        Write-Host "  2. File → Open Folder → $repoDir" -ForegroundColor White
-        Write-Host "  3. Set default terminal to Git Bash (Ctrl+Shift+P → Terminal: Select Default Profile)" -ForegroundColor White
+        Write-Host "  2. File -> Open Folder -> $repoDir" -ForegroundColor White
+        Write-Host "  3. Set default terminal to Git Bash (Ctrl+Shift+P -> Terminal: Select Default Profile)" -ForegroundColor White
         Write-Host "  4. Open a terminal and type: claude" -ForegroundColor White
         Write-Host "  5. Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
     }
     Write-Host ""
 } else {
-    Write-Host "Some items need attention — see details above." -ForegroundColor Yellow
+    Write-Host "Some items need attention - see details above." -ForegroundColor Yellow
     Write-Host "After fixing, restart your terminal and run this script again to verify." -ForegroundColor Yellow
     Write-Host ""
 }
