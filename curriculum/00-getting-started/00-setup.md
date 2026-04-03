@@ -50,13 +50,25 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 
 ### Mac / Linux
 
-Open Terminal:
+First, open **Terminal**:
+- **Mac:** Press `Cmd + Space`, type `Terminal`, press Enter
+- **Linux:** Press `Ctrl + Alt + T` or find Terminal in your app menu
 
+Now paste each command, one at a time, pressing Enter after each:
+
+**Step 1 -- Download the script:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh -o setup.sh
 ```
 
-**Mac note:** The script installs [Homebrew](https://brew.sh) if you don't have it — that's Mac's package manager.
+**Step 2 -- Run it:**
+```bash
+bash setup.sh
+```
+
+> **Why two steps?** The script needs to ask for your password (to install software) and make confirmations. Piping directly from curl (`curl | bash`) blocks keyboard input, so those prompts fail. Downloading first avoids this.
+
+**Mac note:** The script installs [Homebrew](https://brew.sh) if you don't have it -- that's Mac's package manager. You'll need to be an **admin user** on your Mac (most people are).
 
 **Linux note:** Supports apt (Ubuntu/Debian), dnf (Fedora), and pacman (Arch).
 

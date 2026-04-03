@@ -1,9 +1,33 @@
 #!/usr/bin/env bash
 # Power User — Mac/Linux Setup Script
-# Run: curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
-# Or locally: bash scripts/setup.sh
+#
+# RECOMMENDED (works on Mac and Linux):
+#   1. Download:  curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh -o setup.sh
+#   2. Run:       bash setup.sh
+#
+# OR if already cloned: bash scripts/setup.sh
 
 set -e
+
+# ============================================
+# Check if running in a pipe (curl | bash)
+# Homebrew and sudo need interactive input
+# ============================================
+if [[ ! -t 0 ]]; then
+    echo ""
+    echo "========================================="
+    echo "  Heads up: this script needs keyboard"
+    echo "  input (for passwords, confirmations)."
+    echo "  Piping from curl won't work."
+    echo "========================================="
+    echo ""
+    echo "Run these two commands instead:"
+    echo ""
+    echo "  curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh -o setup.sh"
+    echo "  bash setup.sh"
+    echo ""
+    exit 1
+fi
 
 echo ""
 echo "========================================"

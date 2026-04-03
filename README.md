@@ -27,9 +27,16 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
 > Don't know what PowerShell is? It's the command-line app built into every Windows PC. See [Lesson 00](curriculum/00-getting-started/00-setup.md) for a full walkthrough.
 
-**Mac / Linux** (open Terminal):
+**Mac / Linux** (open Terminal -- Mac: `Cmd+Space`, type "Terminal"; Linux: `Ctrl+Alt+T`):
+
+Download the script:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/melvenac/power-user/master/scripts/setup.sh -o setup.sh
+```
+
+Run it:
+```bash
+bash setup.sh
 ```
 
 When VS Code opens, follow these steps carefully:
