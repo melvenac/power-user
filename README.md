@@ -64,6 +64,8 @@ code ~/Projects/power-user
 
 **Prefer manual setup?** Follow the step-by-step guide in [Lesson 00: Setup](curriculum/00-getting-started/00-setup.md).
 
+**Never used a terminal before?** Follow the [Visual Setup Guide](curriculum/00-getting-started/visual-setup-guide.md) -- every step has a screenshot.
+
 ## Philosophy
 
 1. **Learn by doing** — every lesson has exercises you run inside Claude Code

@@ -2,6 +2,8 @@
 
 ## Before You Start
 
+> **Prefer a visual walkthrough?** See the [Visual Setup Guide](visual-setup-guide.md) -- every step has a screenshot.
+
 This lesson gets your machine ready for Claude Code. If you've already got Git, Node.js, VS Code, GitHub CLI, and Claude Code installed — skip to [What Is Claude Code?](03-what-is-claude-code.md).
 
 If not, read on. We'll get you from zero to ready in about 15 minutes.
