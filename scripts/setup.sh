@@ -476,36 +476,44 @@ for tool in Git Node npm VSCode Claude Bun GH Curriculum; do
 done
 
 echo ""
-if $all_good; then
-    echo -e "${GREEN}All set! Opening the curriculum now...${NC}"
-    echo ""
-
-    # Open VS Code in the curriculum folder
-    if check_command code && [[ -d "$REPO_DIR" ]]; then
-        echo -e "  ${CYAN}Opening VS Code in $REPO_DIR...${NC}"
-        code "$REPO_DIR"
-        echo ""
-        echo -e "  ${CYAN}VS Code should be opening now. When it does:${NC}"
-        echo "    1. Open a terminal (Ctrl+\` or Cmd+\`)"
-        echo "    2. Type: claude"
-        echo "    3. Pick a theme (Dark recommended), accept the terms"
-        echo "    4. Sign in via browser (subscribe to Claude Pro \$20/mo if needed)"
-        echo "    5. Type: hello"
-        echo "    Claude will welcome you and walk you through your first lesson!"
-    else
-        echo -e "${CYAN}Next steps:${NC}"
-        echo "  1. Open VS Code"
-        echo "  2. File -> Open Folder -> $REPO_DIR"
-        echo "  3. Open a terminal (Ctrl+\` or Cmd+\`)"
-        echo "  4. Type: claude"
-        echo "  5. Pick a theme (Dark recommended), accept the terms"
-        echo "  6. Sign in via browser (subscribe to Claude Pro \$20/mo if needed)"
-        echo "  7. Type: hello"
-        echo "  Claude will welcome you and walk you through your first lesson!"
-    fi
-    echo ""
-else
-    echo -e "${YELLOW}Some items need attention — see details above.${NC}"
-    echo -e "${YELLOW}After fixing, restart your terminal and run this script again.${NC}"
+if ! $all_good; then
+    echo -e "${YELLOW}Some items need attention — see the results above.${NC}"
+    echo -e "${YELLOW}You can fix those later — the core tools are likely installed.${NC}"
     echo ""
 fi
+
+# Try to open VS Code in the curriculum folder
+opened_vscode=false
+if [[ -d "$REPO_DIR" ]]; then
+    if check_command code; then
+        echo -e "  ${CYAN}Opening VS Code in $REPO_DIR...${NC}"
+        code "$REPO_DIR"
+        opened_vscode=true
+    elif [[ "$OS" == "mac" && -d "/Applications/Visual Studio Code.app" ]]; then
+        echo -e "  ${CYAN}Opening VS Code in $REPO_DIR...${NC}"
+        open -a "Visual Studio Code" "$REPO_DIR"
+        opened_vscode=true
+    fi
+fi
+
+echo ""
+if $opened_vscode; then
+    echo -e "${GREEN}VS Code should be opening now. When it does:${NC}"
+    echo "  1. Open a terminal (Ctrl+\` or Cmd+\`)"
+    echo "  2. Type: claude"
+    echo "  3. Pick a theme (Dark recommended), accept the terms"
+    echo "  4. Sign in via browser (subscribe to Claude Pro \$20/mo if needed)"
+    echo "  5. Type: hello"
+    echo "  Claude will welcome you and walk you through your first lesson!"
+else
+    echo -e "${CYAN}Next steps:${NC}"
+    echo "  1. Open VS Code"
+    echo "  2. File -> Open Folder -> $REPO_DIR"
+    echo "  3. Open a terminal (Ctrl+\` or Cmd+\`)"
+    echo "  4. Type: claude"
+    echo "  5. Pick a theme (Dark recommended), accept the terms"
+    echo "  6. Sign in via browser (subscribe to Claude Pro \$20/mo if needed)"
+    echo "  7. Type: hello"
+    echo "  Claude will welcome you and walk you through your first lesson!"
+fi
+echo ""
