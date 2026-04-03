@@ -21,8 +21,15 @@ RED='\033[0;31m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Track results
-declare -A results
+# Track results (using simple variables for bash 3.2 compatibility on macOS)
+result_Git=""
+result_Node=""
+result_npm=""
+result_VSCode=""
+result_Claude=""
+result_Bun=""
+result_GH=""
+result_Curriculum=""
 
 check_command() {
     if command -v "$1" &> /dev/null; then
@@ -82,7 +89,7 @@ echo -e "${CYAN}Checking Git...${NC}"
 if check_command git; then
     version=$(git --version)
     echo -e "  ${GREEN}Found: $version${NC}"
-    results[Git]="pass"
+    result_Git="pass"
 else
     echo -e "  ${RED}Not found${NC}"
     case $INSTALLER in
@@ -95,9 +102,9 @@ else
 
     if check_command git; then
         echo -e "  ${GREEN}Installed: $(git --version)${NC}"
-        results[Git]="installed"
+        result_Git="installed"
     else
-        results[Git]="FAIL"
+        result_Git="FAIL"
     fi
 fi
 echo ""
@@ -111,7 +118,7 @@ if check_command node; then
     major=$(echo "$version" | sed 's/v\([0-9]*\).*/\1/')
     if [[ $major -ge 18 ]]; then
         echo -e "  ${GREEN}Found: Node.js $version${NC}"
-        results[Node]="pass"
+        result_Node="pass"
     else
         echo -e "  ${YELLOW}Found $version but need v18+. Upgrading...${NC}"
         case $INSTALLER in
@@ -122,9 +129,9 @@ if check_command node; then
         esac
         if check_command node; then
             echo -e "  ${GREEN}Upgraded: Node.js $(node --version)${NC}"
-            results[Node]="installed"
+            result_Node="installed"
         else
-            results[Node]="FAIL"
+            result_Node="FAIL"
         fi
     fi
 else
@@ -139,9 +146,9 @@ else
 
     if check_command node; then
         echo -e "  ${GREEN}Installed: Node.js $(node --version)${NC}"
-        results[Node]="installed"
+        result_Node="installed"
     else
-        results[Node]="FAIL"
+        result_Node="FAIL"
     fi
 fi
 echo ""
@@ -152,10 +159,10 @@ echo ""
 echo -e "${CYAN}Checking npm...${NC}"
 if check_command npm; then
     echo -e "  ${GREEN}Found: npm $(npm --version)${NC}"
-    results[npm]="pass"
+    result_npm="pass"
 else
     echo -e "  ${YELLOW}Not found — should come with Node.js. Restart terminal.${NC}"
-    results[npm]="RESTART"
+    result_npm="RESTART"
 fi
 echo ""
 
@@ -166,7 +173,7 @@ echo -e "${CYAN}Checking VS Code...${NC}"
 if check_command code; then
     version=$(code --version 2>/dev/null | head -1)
     echo -e "  ${GREEN}Found: VS Code $version${NC}"
-    results[VSCode]="pass"
+    result_VSCode="pass"
 else
     echo -e "  ${RED}Not found${NC}"
     case $INSTALLER in
@@ -174,9 +181,9 @@ else
             echo "  Installing..." && brew install --cask visual-studio-code
             if check_command code; then
                 echo -e "  ${GREEN}Installed VS Code${NC}"
-                results[VSCode]="installed"
+                result_VSCode="installed"
             else
-                results[VSCode]="FAIL"
+                result_VSCode="FAIL"
             fi
             ;;
         *)
@@ -184,7 +191,7 @@ else
             if [[ "$OS" == "linux" ]]; then
                 echo -e "  ${YELLOW}Or: sudo snap install code --classic${NC}"
             fi
-            results[VSCode]="MANUAL"
+            result_VSCode="MANUAL"
             ;;
     esac
 fi
@@ -197,21 +204,21 @@ echo -e "${CYAN}Checking Claude Code...${NC}"
 if check_command claude; then
     version=$(claude --version 2>/dev/null)
     echo -e "  ${GREEN}Found: Claude Code $version${NC}"
-    results[Claude]="pass"
+    result_Claude="pass"
 else
     if check_command npm; then
         echo "  Installing Claude Code..."
         npm install -g @anthropic-ai/claude-code
         if check_command claude; then
             echo -e "  ${GREEN}Installed: Claude Code $(claude --version 2>/dev/null)${NC}"
-            results[Claude]="installed"
+            result_Claude="installed"
         else
             echo -e "  ${YELLOW}Installed but not in PATH — try: export PATH=\"\$(npm bin -g):\$PATH\"${NC}"
-            results[Claude]="RESTART"
+            result_Claude="RESTART"
         fi
     else
         echo -e "  ${YELLOW}Skipped — need npm first${NC}"
-        results[Claude]="BLOCKED"
+        result_Claude="BLOCKED"
     fi
 fi
 echo ""
@@ -222,11 +229,11 @@ echo ""
 echo -e "${CYAN}Checking Bun (optional)...${NC}"
 if check_command bun; then
     echo -e "  ${GREEN}Found: Bun $(bun --version)${NC}"
-    results[Bun]="pass"
+    result_Bun="pass"
 else
     echo -e "  ${YELLOW}Not found (optional — needed for Aaron's web stack)${NC}"
     echo -e "  ${YELLOW}Install later with: curl -fsSL https://bun.sh/install | bash${NC}"
-    results[Bun]="optional"
+    result_Bun="optional"
 fi
 echo ""
 
@@ -241,7 +248,7 @@ if check_command gh; then
     # Check if authenticated
     if gh auth status &>/dev/null; then
         echo -e "  ${GREEN}Authenticated with GitHub${NC}"
-        results[GH]="pass"
+        result_GH="pass"
     else
         echo -e "  ${YELLOW}Installed but not logged in${NC}"
         echo ""
@@ -252,7 +259,7 @@ if check_command gh; then
         echo "    gh auth login"
         echo ""
         echo -e "  ${YELLOW}Choose: GitHub.com → HTTPS → Login with a web browser${NC}"
-        results[GH]="RESTART"
+        result_GH="RESTART"
     fi
 else
     echo -e "  ${YELLOW}Not found — installing...${NC}"
@@ -272,11 +279,11 @@ else
         echo ""
         echo -e "  ${YELLOW}After restarting your terminal, run:${NC}"
         echo "    gh auth login"
-        results[GH]="RESTART"
+        result_GH="RESTART"
     else
         echo -e "  ${RED}Install failed — get it from: https://cli.github.com${NC}"
         echo -e "  ${YELLOW}You'll also need a GitHub account: https://github.com/signup${NC}"
-        results[GH]="FAIL"
+        result_GH="FAIL"
     fi
 fi
 echo ""
@@ -291,7 +298,7 @@ echo ""
 
 all_good=true
 for tool in Git Node npm VSCode Claude Bun GH; do
-    status=${results[$tool]}
+    eval "status=\$result_$tool"
     case $status in
         pass)      echo -e "  ${GREEN}[OK]      $tool${NC}" ;;
         installed) echo -e "  ${GREEN}[NEW]     $tool (just installed)${NC}" ;;
@@ -314,7 +321,7 @@ REPO_DIR="$PROJECTS_DIR/power-user"
 
 if [[ -d "$REPO_DIR/curriculum" ]]; then
     echo -e "  ${GREEN}Found existing curriculum at $REPO_DIR${NC}"
-    results[Curriculum]="pass"
+    result_Curriculum="pass"
 else
     # Create Projects folder if it doesn't exist
     if [[ ! -d "$PROJECTS_DIR" ]]; then
@@ -326,14 +333,14 @@ else
         echo -e "  ${YELLOW}Cloning curriculum to $REPO_DIR...${NC}"
         if git clone https://github.com/melvenac/power-user.git "$REPO_DIR" 2>/dev/null; then
             echo -e "  ${GREEN}Curriculum ready at $REPO_DIR${NC}"
-            results[Curriculum]="installed"
+            result_Curriculum="installed"
         else
             echo -e "  ${RED}Clone failed — try manually: git clone https://github.com/melvenac/power-user.git $REPO_DIR${NC}"
-            results[Curriculum]="FAIL"
+            result_Curriculum="FAIL"
         fi
     else
         echo -e "  ${YELLOW}Skipped — need Git first. Re-run after installing Git.${NC}"
-        results[Curriculum]="BLOCKED"
+        result_Curriculum="BLOCKED"
     fi
 fi
 echo ""
@@ -348,7 +355,7 @@ echo ""
 
 all_good=true
 for tool in Git Node npm VSCode Claude Bun GH Curriculum; do
-    status=${results[$tool]}
+    eval "status=\$result_$tool"
     case $status in
         pass)      echo -e "  ${GREEN}[OK]      $tool${NC}" ;;
         installed) echo -e "  ${GREEN}[NEW]     $tool (just installed)${NC}" ;;
