@@ -268,13 +268,20 @@ if check_command code; then
     version=$(code --version 2>/dev/null | head -1)
     echo -e "  ${GREEN}Found: VS Code $version${NC}"
     result_VSCode="pass"
+elif [[ "$OS" == "mac" && -d "/Applications/Visual Studio Code.app" ]]; then
+    # VS Code is installed but 'code' CLI isn't in PATH
+    echo -e "  ${GREEN}Found: VS Code (installed in /Applications)${NC}"
+    echo -e "  ${YELLOW}TIP: The 'code' command is not in your PATH.${NC}"
+    echo -e "  ${YELLOW}Open VS Code, press Cmd+Shift+P, type 'Shell Command: Install code command in PATH', press Enter.${NC}"
+    result_VSCode="pass"
 else
     echo -e "  ${RED}Not found${NC}"
     case $INSTALLER in
         brew)
             echo "  Installing..." && brew install --cask visual-studio-code
-            if check_command code; then
+            if check_command code || [[ -d "/Applications/Visual Studio Code.app" ]]; then
                 echo -e "  ${GREEN}Installed VS Code${NC}"
+                echo -e "  ${YELLOW}TIP: Open VS Code, press Cmd+Shift+P, type 'Shell Command: Install code command in PATH'${NC}"
                 result_VSCode="installed"
             else
                 result_VSCode="FAIL"
