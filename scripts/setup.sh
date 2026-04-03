@@ -309,7 +309,13 @@ if check_command claude; then
 else
     if check_command npm; then
         echo "  Installing Claude Code..."
-        npm install -g @anthropic-ai/claude-code
+        # Try without sudo first, fall back to sudo if permission denied
+        if npm install -g @anthropic-ai/claude-code 2>&1; then
+            true  # success
+        else
+            echo -e "  ${YELLOW}Permission denied — retrying with sudo...${NC}"
+            sudo npm install -g @anthropic-ai/claude-code
+        fi
         if check_command claude; then
             echo -e "  ${GREEN}Installed: Claude Code $(claude --version 2>/dev/null)${NC}"
             result_Claude="installed"
