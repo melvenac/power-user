@@ -45,6 +45,76 @@ RED='\033[0;31m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+# ============================================
+# System Requirements Check
+# ============================================
+echo -e "${CYAN}Checking system requirements...${NC}"
+echo ""
+
+# --- RAM Check ---
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    total_ram_bytes=$(sysctl -n hw.memsize 2>/dev/null || echo 0)
+    total_ram_gb=$(( total_ram_bytes / 1073741824 ))
+else
+    total_ram_kb=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}')
+    total_ram_gb=$(( ${total_ram_kb:-0} / 1048576 ))
+fi
+
+echo -e "  RAM: ${total_ram_gb} GB"
+
+if [[ $total_ram_gb -lt 8 ]]; then
+    echo ""
+    echo -e "  ${RED}WARNING: ${total_ram_gb} GB RAM is below the minimum (8 GB).${NC}"
+    echo -e "  ${RED}Claude Code + VS Code together need ~6-7 GB, leaving almost${NC}"
+    echo -e "  ${RED}nothing for your OS. This setup will not work well.${NC}"
+    echo ""
+    read -p "  Continue anyway? (y/N) " continue_choice
+    if [[ "$continue_choice" != "y" ]]; then
+        echo ""
+        echo -e "  ${YELLOW}Setup cancelled. Consider upgrading RAM to at least 8 GB (16 GB recommended).${NC}"
+        exit 1
+    fi
+elif [[ $total_ram_gb -lt 16 ]]; then
+    echo -e "  ${YELLOW}NOTE: 8 GB is workable but tight. Close other apps when using Claude Code.${NC}"
+else
+    echo -e "  ${GREEN}RAM: OK${NC}"
+fi
+
+# --- Disk Space Check ---
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    free_gb=$(df -g / | awk 'NR==2 {print $4}')
+else
+    free_kb=$(df / | awk 'NR==2 {print $4}')
+    free_gb=$(( ${free_kb:-0} / 1048576 ))
+fi
+
+echo -e "  Disk: ${free_gb} GB free"
+
+if [[ $free_gb -lt 20 ]]; then
+    echo ""
+    echo -e "  ${RED}NOT ENOUGH DISK SPACE.${NC}"
+    echo -e "  ${RED}This setup installs ~16-17 GB (Claude Code alone is ~15 GB).${NC}"
+    echo -e "  ${RED}Your OS also needs space for swap files and updates.${NC}"
+    echo -e "  ${RED}You need at least 20 GB free, 30+ GB recommended.${NC}"
+    echo ""
+    echo -e "  ${YELLOW}Free up space and try again.${NC}"
+    exit 1
+elif [[ $free_gb -lt 30 ]]; then
+    echo -e "  ${YELLOW}WARNING: Space is tight. Installation may succeed but your system${NC}"
+    echo -e "  ${YELLOW}will be cramped. 30+ GB free is recommended.${NC}"
+    echo ""
+    read -p "  Continue anyway? (y/N) " continue_choice
+    if [[ "$continue_choice" != "y" ]]; then
+        echo ""
+        echo -e "  ${YELLOW}Setup cancelled. Free up space and try again.${NC}"
+        exit 1
+    fi
+else
+    echo -e "  ${GREEN}Disk: OK${NC}"
+fi
+
+echo ""
+
 # Track results (using simple variables for bash 3.2 compatibility on macOS)
 result_Git=""
 result_Node=""
