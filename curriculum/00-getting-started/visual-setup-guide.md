@@ -170,33 +170,23 @@ Claude Code opens your web browser to the Anthropic login page.
 
 ---
 
-## Part 8: Test It
+## Part 8: Say Hello -- Your Lesson Starts Now
 
-Type a quick message to make sure everything works:
+Type:
 
 ```
-hello, are you working?
+hello
 ```
 
-![Claude Code responding to "hello, are you working?" with a friendly reply.](images/19-first-message.png)
+![Claude Code responding to "hello" with a welcome message, asking your name.](images/19-first-message.png)
 
-**Claude responded?** You're all set!
+**That's it. You're in.** Claude will welcome you, ask your name, and start walking you through the curriculum right here in the conversation. No files to open, no docs to read -- just talk to Claude and follow along.
 
-Now type `/exit` to close Claude Code for now.
-
----
-
-## Part 9: Start the Curriculum
-
-You're ready to learn. Open the first lesson:
-
-1. In VS Code's file explorer (left sidebar), navigate to:
-   `curriculum/00-getting-started/00-setup.md`
-
-![VS Code file explorer showing the curriculum folder structure, with 00-setup.md highlighted.](images/20-open-first-lesson.png)
-
-2. Click the file to open it
-3. Start reading -- the curriculum takes it from here
+Claude will:
+- Ask your name and offer to remember it
+- Give you a quick tour of what you're going to learn
+- Walk you into your first lesson interactively
+- Show you what Claude Code can do by *doing it*, not just explaining
 
 ---
 

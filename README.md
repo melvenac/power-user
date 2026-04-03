@@ -59,9 +59,10 @@ When VS Code opens, follow these steps carefully:
    - **Subscription required:** You need Claude Pro ($20/month) or Claude Max. Claude Pro is fine for learning.
    - Once subscribed, go back to VS Code -- Claude Code connects automatically
 
-4. **Start learning**
-   - Type `/exit` to close Claude Code for now
-   - Open the file `curriculum/00-getting-started/00-setup.md` in VS Code and start reading
+4. **Say hello -- your lesson starts now**
+   - Type `hello` and press Enter
+   - Claude will welcome you, ask your name, and walk you through your first lesson
+   - No files to open, no docs to read -- just follow along in the conversation
 
 **Already have Git, Node.js, and VS Code?** Just clone and go:
 ```bash

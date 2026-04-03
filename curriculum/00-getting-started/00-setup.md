@@ -126,17 +126,17 @@ Claude Code requires a paid subscription. Here's what to expect:
 
 > **Stuck on login?** If the browser didn't open automatically, Claude Code shows a URL in the terminal — copy and paste it into your browser manually. If you already have an Anthropic account with an active subscription, just log in and it connects automatically.
 
-### Step 5: Verify It Works
+### Step 5: Say Hello — Your Lesson Starts Now
 
 You should now see Claude Code's prompt in your terminal — it looks like a chat interface where you can type messages.
 
-Type a quick test:
+Type:
 
 ```
-hello, are you working?
+hello
 ```
 
-If Claude responds, you're all set. Type `/exit` to close Claude Code for now.
+**That's it. You're in.** Claude will welcome you, ask your name, and start walking you through the curriculum right here in the conversation. No files to open, no docs to read — just talk to Claude and follow along.
 
 **Having trouble?** Check the [troubleshooting section](#troubleshooting-the-path-problem) at the bottom of this page. The most common issue is PATH problems — the fix is there.
 
@@ -289,7 +289,7 @@ Now every new terminal in VS Code will be bash. This means:
 3. **Theme:** Use arrow keys to pick Dark (or your preference), press Enter
 4. **Terms:** Press Enter to accept
 5. **Login:** Your browser opens — sign in or create an Anthropic account, subscribe to Claude Pro ($20/month) or Max, then return to VS Code
-6. Claude Code is now connected and ready
+6. Claude Code is now connected — type `hello` and Claude will walk you through your first lesson
 
 ### Install the Claude Code Extension (Optional)
 

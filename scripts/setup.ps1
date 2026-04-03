@@ -495,8 +495,10 @@ if ($allGood) {
         Write-Host "    - Subscribe to Claude Pro ($20/mo) or Max if you haven't already" -ForegroundColor White
         Write-Host "    - Go back to VS Code - Claude Code connects automatically" -ForegroundColor White
         Write-Host ""
-        Write-Host "  STEP 4: Start learning" -ForegroundColor White
-        Write-Host "    - Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
+        Write-Host "  STEP 4: Say hello - your lesson starts now" -ForegroundColor White
+        Write-Host "    - Type: hello  (then press Enter)" -ForegroundColor White
+        Write-Host "    - Claude will welcome you and walk you through your first lesson" -ForegroundColor White
+        Write-Host "    - No files to open - just follow along in the conversation!" -ForegroundColor White
     } else {
         Write-Host "Next steps:" -ForegroundColor Cyan
         Write-Host ""
@@ -519,8 +521,10 @@ if ($allGood) {
         Write-Host "    - Accept the terms, then sign in via browser" -ForegroundColor White
         Write-Host "    - Subscribe to Claude Pro ($20/mo) or Max if needed" -ForegroundColor White
         Write-Host ""
-        Write-Host "  STEP 5: Start learning" -ForegroundColor White
-        Write-Host "    - Open curriculum/00-getting-started/00-setup.md and start reading!" -ForegroundColor White
+        Write-Host "  STEP 5: Say hello - your lesson starts now" -ForegroundColor White
+        Write-Host "    - Type: hello  (then press Enter)" -ForegroundColor White
+        Write-Host "    - Claude will welcome you and walk you through your first lesson" -ForegroundColor White
+        Write-Host "    - No files to open - just follow along in the conversation!" -ForegroundColor White
     }
     Write-Host ""
 } else {
